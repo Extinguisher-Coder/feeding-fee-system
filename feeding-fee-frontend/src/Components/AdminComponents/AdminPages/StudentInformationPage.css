@@ -1,0 +1,186 @@
+/* General Layout */
+.student-info-page {
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* Header */
+.print-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.school-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  margin-bottom: 8px;
+  display: none;
+}
+
+.school-name {
+  font-size: 22px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 4px;
+  display: none;
+}
+
+.system-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+  margin-bottom: 8px;
+  display: none;
+}
+
+/* Info Grid */
+.info-section-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+}
+
+.info-grid div {
+  font-size: 16px;
+}
+
+/* Print Button */
+.student-info-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.print-btn {
+  background-color: yellowgreen;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.print-btn:hover {
+  background-color: green;
+}
+
+/* Footer */
+.printed-on {
+  font-size: 13px;
+  text-align: right;
+  margin-top: 20px;
+  color: #555;
+  display: none;
+}
+
+/* Hide print controls */
+.no-print {
+  display: block;
+}
+
+/* Printing Rules */
+@media print {
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: auto !important;
+  }
+
+  /* Hide everything by default */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Make the printable area visible and position it at the top */
+  .student-info-page.printing-mode,
+  .student-info-page.printing-mode * {
+    visibility: visible;
+  }
+
+  .student-info-page.printing-mode {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    color: black;
+    width: 100%;
+    padding: 20px;
+    /* Prevent page breaks after the container */
+    page-break-after: avoid;
+    break-after: avoid-page;
+  }
+
+  /* Show printable header info */
+  .school-logo,
+  .school-name,
+  .system-title,
+  .printed-on {
+    display: block !important;
+  }
+
+  /* Hide buttons and other non-essential controls */
+  .student-info-buttons,
+  .no-print {
+    display: none !important;
+  }
+
+  .info-section-title {
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: left;
+  }
+
+  .info-grid {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid black;
+    box-shadow: none;
+    border-radius: 0;
+    gap: 8px;
+    background: none;
+    /* Prevent table/grid content from breaking across pages */
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+
+  .info-grid div {
+    font-size: 14px;
+  }
+
+  .printed-on {
+    font-size: 12px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: right;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .print-btn {
+    width: 100%;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,169 @@
+/* AdminUsersPage.css */
+.userpage-container {
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center;
+}
+
+/* Page Title */
+.userpage-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: orangered;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Buttons Container */
+.userpage-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center; /* Ensure buttons are centered */
+  flex-wrap: wrap;
+  gap: 10px; /* Space between buttons */
+}
+
+/* Action Buttons */
+.userpage-button {
+  background-color: yellowgreen;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.userpage-button:hover {
+  background-color: orangered;
+}
+
+/* Users Table */
+.userpage-table {
+  width: 100%;
+  max-width: 1200px; /* Limit the table width */
+  border-collapse: collapse;
+  margin-top: 20px;
+  overflow-x: auto; /* Enable horizontal scrolling for smaller screens */
+  display: block; /* Make the table block-level for responsive layout */
+}
+
+.userpage-table th,
+.userpage-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.userpage-table th {
+  background-color: black;
+  color: white;
+  font-weight: bold;
+}
+
+.userpage-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Reset Password Button */
+.userpage-reset-btn {
+  background-color: orangered;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.userpage-reset-btn:hover {
+  background-color: yellowgreen;
+}
+
+/* Delete Button */
+.userpage-delete-btn {
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.userpage-delete-btn:hover {
+  background-color: orangered;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  /* Page Title */
+  .userpage-title {
+    font-size: 1.5rem;
+  }
+
+  /* Action Buttons */
+  .userpage-button {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  /* Buttons Container */
+  .userpage-buttons {
+    justify-content: center; /* Center buttons on medium screens */
+    flex-wrap: wrap;
+  }
+
+  /* Users Table */
+  .userpage-table th,
+  .userpage-table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  /* Reset Password Button */
+  .userpage-reset-btn,
+  .userpage-delete-btn {
+    padding: 4px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Page Title */
+  .userpage-title {
+    font-size: 1.25rem;
+  }
+
+  /* Action Buttons */
+  .userpage-button {
+    font-size: 0.85rem;
+    padding: 6px 14px;
+  }
+
+  /* Buttons Container */
+  .userpage-buttons {
+    flex-direction: column;
+    align-items: center; /* Center buttons in mobile layout */
+  }
+
+  /* Users Table */
+  .userpage-table th,
+  .userpage-table td {
+    font-size: 0.9rem;
+    padding: 6px;
+  }
+
+  .userpage-table th {
+    font-size: 1rem;
+  }
+
+  /* Reset Password Button */
+  .userpage-reset-btn,
+  .userpage-delete-btn {
+    padding: 3px 7px;
+  }
+}

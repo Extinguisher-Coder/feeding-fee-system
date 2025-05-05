@@ -1,0 +1,342 @@
+/* WeeklyReportPage.css */
+.weekly-report-container {
+  width: 100%;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* handles wide table */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  color: orangered;
+  font-weight: bold;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  min-width: 1200px; /* ensure horizontal scroll works for wide table */
+}
+
+.report-table th,
+.report-table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.report-table th {
+  background-color: #f9f9f9;
+  color: black;
+}
+
+.btn {
+  padding: 12px 20px;
+  background-color: #FF4F00;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+  margin: 1rem 0;
+}
+
+.btn:hover {
+  background-color: #f15b00;
+}
+
+.go-back-btn {
+  background-color: #2D8B4E;
+}
+
+.go-back-btn:hover {
+  background-color: #239b3b;
+}
+
+.report-controls {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  padding: 10px 14px;
+  width: 200px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 1.5rem 0;
+}
+
+.page-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: yellowgreen;
+  color: white;
+  cursor: pointer;
+}
+
+.page-btn.active,
+.page-btn:hover {
+  background-color: orangered;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+
+.red-cell {
+  background-color: red;
+  color: white;
+}
+
+.green-cell {
+  background-color: green;
+  color: white;
+}
+
+.yellow-cell {
+  background-color: yellow;
+}
+
+
+
+
+/* Hide by default */
+.school-logo,
+.school-name,
+.system-title,
+.printed-on {
+  display: none;
+}
+
+/* ====================== PRINT STYLES ====================== */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print-wrapper,
+  .print-wrapper * {
+    visibility: visible;
+  }
+
+  .print-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    color: black;
+    padding: 20px;
+  }
+
+  .report-controls,
+  .pagination,
+  .button-group,
+  .no-print {
+    display: none !important;
+  }
+
+  .school-logo,
+  .school-name,
+  .system-title,
+  .printed-on {
+    display: block;
+  }
+
+  .print-header {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .school-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 8px auto;
+  }
+
+  .school-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: black;
+  }
+
+  .system-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 8px;
+  }
+
+  .printed-on {
+    font-size: 12px;
+    text-align: right;
+    margin-bottom: 15px;
+    color: black;
+  }
+
+  .page-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: black;
+    text-align: left;
+  }
+
+  .report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 12px;
+  }
+
+  .report-table th,
+  .report-table td {
+    border: 1px solid black;
+    padding: 4px;
+    text-align: left;
+  }
+
+  .report-table th {
+    padding: 6px 8px;
+    font-weight: bold;
+  }
+
+  .report-table td {
+    padding: 4px 6px;
+  }
+}
+
+/* ====================== Mobile Responsive ====================== */
+@media (max-width: 768px) {
+  .weekly-report-container {
+    width: 95%;
+    padding: 1rem;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .report-table {
+    overflow-x: auto;
+    display: block;
+  }
+
+  .report-table th,
+  .report-table td {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .btn {
+    padding: 10px 18px;
+    font-size: 1rem;
+    width: 100%;
+    margin: 1rem 0;
+    text-align: center;
+  }
+
+  .go-back-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .search-input {
+    width: 100%;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .page-btn {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .weekly-report-container {
+    padding: 0.5rem;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .report-table th,
+  .report-table td {
+    padding: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    width: 100%;
+  }
+
+  .search-input {
+    padding: 8px;
+    width: 100%;
+  }
+
+  .pagination {
+    gap: 10px;
+    align-items: center;
+  }
+
+  .page-btn {
+    padding: 8px;
+  }
+
+  .button-group {
+    gap: 8px;
+    align-items: center;
+  }
+}

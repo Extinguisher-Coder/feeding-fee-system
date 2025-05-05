@@ -1,0 +1,91 @@
+.parent-contact-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 25px;
+    background-color: #ffffff;
+    border: 2px solid yellowgreen;
+    border-radius: 12px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+  }
+  
+  .parent-contact-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: 600;
+  }
+  
+  .parent-contact-intro {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  .parent-contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  
+  .parent-contact-item {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: #333;
+  }
+  
+  .parent-contact-item a {
+    color: green;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 5px;
+    word-break: break-word;
+  }
+  
+  .parent-contact-item a:hover {
+    text-decoration: underline;
+  }
+  
+  /* === Responsive Enhancements === */
+  @media (max-width: 768px) {
+    .parent-contact-container {
+      padding: 20px;
+      margin: 20px;
+    }
+  
+    .parent-contact-title {
+      font-size: 1.5rem;
+    }
+  
+    .parent-contact-intro {
+      font-size: 0.95rem;
+    }
+  
+    .parent-contact-item {
+      font-size: 0.95rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .parent-contact-container {
+      padding: 15px;
+    }
+  
+    .parent-contact-title {
+      font-size: 1.3rem;
+    }
+  
+    .parent-contact-intro {
+      font-size: 0.9rem;
+    }
+  
+    .parent-contact-item {
+      font-size: 0.9rem;
+    }
+  }
+  

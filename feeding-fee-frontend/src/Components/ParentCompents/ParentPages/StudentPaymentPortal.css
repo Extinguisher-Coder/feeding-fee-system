@@ -1,0 +1,224 @@
+.std-portal-container {
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.std-welcome-row {
+  background-color: #f8f8f8;
+  padding: 10px;
+  font-weight: bold;
+  color: black;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 1rem;
+}
+
+.std-page-title {
+  background-color: #f5f5f5;
+  margin-top: 10px;
+  padding: 15px;
+  font-size: 2rem;
+  color: orangered;
+  font-weight: bold;
+  text-align: center;
+}
+
+.std-last-payment-row {
+  background-color: #ffffff;
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  font-weight: bold;
+  color: yellowgreen;
+  font-size: 1rem;
+  gap: 10px;
+}
+
+.std-search-export-row {
+  background-color: #f5f5f5;
+  margin-top: 10px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.std-search-export-row input {
+  flex: 1;
+  min-width: 200px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.std-export-button {
+  background-color: orangered;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.std-total-amount {
+  margin-top: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: orangered;
+}
+
+.std-table-container {
+  margin-top: 10px;
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto; /* for small screen scroll */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* prevents breaking on very small screens */
+}
+
+thead {
+  background-color: #f8f8f8;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.std-pagination {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}
+
+.std-pagination button {
+  padding: 8px 12px;
+  background-color: blue;
+  border: 1px solid black;
+  color: yellowgreen;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.std-pagination button.std-active {
+  background-color: orangered;
+  color: white;
+}
+
+.std-loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.std-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f5f5f5;
+  border-top: 5px solid orangered;
+  border-radius: 50%;
+  animation: std-spin 1s linear infinite;
+}
+
+@keyframes std-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === Responsive Breakpoints === */
+@media (max-width: 768px) {
+  .std-page-title {
+    font-size: 1.5rem;
+  }
+
+  .std-last-payment-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .std-welcome-row {
+    font-size: 0.95rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .std-search-export-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .std-export-button {
+    width: 100%;
+  }
+
+  .std-search-export-row {
+    flex-direction: column;
+    align-items: center; /* Center children horizontally */
+    text-align: center;  /* Center text content */
+  }
+  
+  .std-search-export-row input {
+    width: 100%; /* Full width input */
+    max-width: 300px; /* Optional: limit width for better readability */
+  }
+  
+  .std-export-button {
+    width: 100%;
+    max-width: 300px; /* Optional: match input width */
+    text-align: center;
+  }
+  
+  .std-total-amount {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+
+
+}
+
+
+@media (max-width: 480px) {
+  .std-page-title {
+    font-size: 1.3rem;
+  }
+
+  th, td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .std-total-amount {
+    font-size: 1rem;
+  }
+
+  .std-export-button {
+    font-size: 0.9rem;
+    padding: 8px;
+  }
+}

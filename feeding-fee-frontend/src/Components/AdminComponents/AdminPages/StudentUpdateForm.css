@@ -1,0 +1,81 @@
+.student-update-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .student-update-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-row {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-row .half-width {
+    width: 48%; /* Each field will take up 48% of the width */
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input, select {
+    padding: 10px;
+    margin-top: 5px;
+    width: 100%;
+  }
+  
+  .submit-btn, .back-to-list-btn {
+    padding: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  
+  .submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+  }
+  
+  .submit-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .back-to-list-btn {
+    background-color: #f0f0f0;
+    color: black;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+  }
+  
+  .back-to-list-btn:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* Ensure fields are arranged side by side */
+  .student-update-form .form-row {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping */
+    justify-content: space-between;
+  }
+  
+  .student-update-form .form-row .half-width {
+    width: 48%; /* Fields should take up 48% width each */
+  }
+  
+  .student-update-container button {
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .student-update-container button:hover {
+    background-color: #e53935;
+  }
+  

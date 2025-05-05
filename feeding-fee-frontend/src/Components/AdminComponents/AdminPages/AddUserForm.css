@@ -1,0 +1,75 @@
+/* AddUserForm.css */
+.add-user-form {
+    font-family: 'Poppins', sans-serif;
+    padding: 20px;
+    max-width: 500px;
+    margin: auto;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: orangered;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: black;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  input[type="email"], input[type="password"], input[type="text"], select {
+    font-size: 1rem;
+  }
+  
+  .save-button {
+    background-color: yellowgreen;
+    color: white;
+    font-size: 1.1rem;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+  }
+  
+  .save-button:hover {
+    background-color: orangered;
+  }
+  
+  .addback-button {
+    background-color: black;
+    color: white;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border: 1px solid orangered;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .addback-button:hover {
+    background-color: orangered;
+    color: white;
+  }
+  

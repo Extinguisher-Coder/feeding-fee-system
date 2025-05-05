@@ -1,0 +1,128 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './SettingsPage.css';
+import AddTermForm from './AddTermForm';
+
+const SettingsPage = () => {
+  const [terms, setTerms] = useState([]);
+  const [filteredTerms, setFilteredTerms] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showAddTermForm, setShowAddTermForm] = useState(false);
+  const [editTerm, setEditTerm] = useState(null);
+
+  useEffect(() => {
+    fetchTerms();
+  }, []);
+
+  useEffect(() => {
+    const filtered = terms.filter((term) =>
+      (term.termName?.toLowerCase() || '').includes(searchTerm.toLowerCase()) ||
+      (term.weeklyFee?.toString() || '').includes(searchTerm)
+    );
+    setFilteredTerms(filtered);
+  }, [searchTerm, terms]);
+
+  const fetchTerms = async () => {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/terms`);
+      setTerms(response.data);
+    } catch (error) {
+      console.error("Error fetching terms:", error);
+    }
+  };
+
+  const handleAddTermClick = () => {
+    setEditTerm(null);
+    setShowAddTermForm(true);
+  };
+
+  const handleCancel = () => {
+    setShowAddTermForm(false);
+    setEditTerm(null);
+  };
+
+  const handleDelete = async (termId) => {
+    if (window.confirm('Are you sure you want to delete this term?')) {
+      try {
+        setTerms((prev) => prev.filter((term) => term._id !== termId));
+        await axios.delete(`${process.env.REACT_APP_BACKEND_API_URL}/terms/${termId}`);
+      } catch (error) {
+        console.error("Failed to delete term:", error);
+        alert("Error deleting term");
+        fetchTerms();
+      }
+    }
+  };
+
+  const handleEdit = (term) => {
+    setEditTerm(term);
+    setShowAddTermForm(true);
+  };
+
+  const formatDate = (dateStr) => {
+    return dateStr
+      ? new Date(dateStr).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        })
+      : 'N/A';
+  };
+
+  return (
+    <div className="settings-page-container">
+      <h1 className="page-title">Settings - Manage Terms</h1>
+
+      <div className="top-controls">
+        <button className="add-term-btn" onClick={handleAddTermClick}>Add New Term</button>
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search by name or fee..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      {showAddTermForm && (
+        <AddTermForm
+          onCancel={handleCancel}
+          fetchTerms={fetchTerms}
+          editTerm={editTerm}
+        />
+      )}
+
+      <div className="terms-list">
+        <table className="terms-table">
+          <thead>
+            <tr>
+              <th>Term Name</th>
+              <th>Term Start</th>
+              <th>Term End</th>
+              <th>Weekly Fee</th>
+              <th>Weeks</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredTerms.map((term) => (
+              <tr key={term._id}>
+                <td>{term.termName}</td>
+                <td>{formatDate(term.startDate)}</td>
+                <td>{formatDate(term.endDate)}</td>
+                <td>{term.weeklyFee} GHS</td>
+                <td>{term.numberOfWeeks}</td>
+                <td>
+                  <button className="edit-btn" onClick={() => handleEdit(term)}>Edit</button>
+                  <button className="delete-btn" onClick={() => handleDelete(term._id)}>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default SettingsPage;

@@ -1,0 +1,148 @@
+.payment-form-container {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.payment-form {
+  background-color: white;
+  border-radius: 12px;
+  padding: 25px 30px;
+  max-width: 650px;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+  color: black;
+  box-sizing: border-box;
+}
+
+.payment-form h2 {
+  color: orangered;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* center fields horizontally */
+  text-align: center;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.form-group input,
+.form-group select {
+  padding: 9px 10px;
+  border: 2px solid yellowgreen;
+  border-radius: 6px;
+  font-size: 15px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.full-width {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.full-width input {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.btn-save,
+.btn-cancel {
+  flex: 1;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-save {
+  background-color: yellowgreen;
+}
+
+.btn-cancel {
+  background-color: orangered;
+}
+
+/* MOBILE RESPONSIVE STYLES */
+@media (max-width: 600px) {
+  .payment-form-container {
+    padding: 20px 10px;
+  }
+
+  .payment-form {
+    padding: 20px 16px;
+    max-width: 95%;
+    text-align: center;
+  }
+
+  .grid-form {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .form-group {
+    align-items: center;
+    width: 100%;
+  }
+
+  .form-group label {
+    text-align: center;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 90%; /* limit width */
+    max-width: 300px; /* optional max */
+    margin: 0 auto;   /* center horizontally */
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .btn-save,
+  .btn-cancel {
+    width: 90%;
+    max-width: 300px;
+  }
+
+  .payment-form h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+}
+

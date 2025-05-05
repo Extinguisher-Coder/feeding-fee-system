@@ -1,0 +1,123 @@
+/* AddTermForm.css */
+
+.add-term-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid yellowgreen;
+  padding-bottom: 0.5rem;
+}
+
+.add-term-form .form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.add-term-form label {
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+.add-term-form input {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+
+.add-term-form input:focus {
+  border-color: yellowgreen;
+  outline: none;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.submit-btn,
+.cancel-btn,
+.ok-btn {
+  padding: 0.7rem 1.4rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn {
+  background-color: yellowgreen;
+  color: white;
+}
+
+.submit-btn:hover {
+  background-color: #689f38;
+}
+
+.cancel-btn {
+  background-color: #ddd;
+  color: black;
+}
+
+.cancel-btn:hover {
+  background-color: #bbb;
+}
+
+.success-message {
+  text-align: center;
+  background-color: #e7fbe7;
+  border: 1px solid yellowgreen;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.success-message p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: green;
+  margin-bottom: 1rem;
+}
+
+.ok-btn {
+  background-color: orangered;
+  color: white;
+}
+
+.ok-btn:hover {
+  background-color: #cc3a00;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .add-term-container {
+    padding: 1.2rem;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .submit-btn,
+  .cancel-btn {
+    width: 100%;
+  }
+}

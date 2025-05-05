@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.admin-payment-container {
+  font-family: 'Poppins', sans-serif;
+  padding: 2rem 1rem;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.top-bar {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.user-name {
+  font-weight: 700;
+  color: orangered;
+}
+
+.time-info {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2.2rem;
+  color: black;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.payment-controls {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.payment-controls input[type="text"] {
+  flex: 1;
+  min-width: 250px;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 2px solid orangered;
+  border-radius: 6px;
+  outline: none;
+  font-weight: 500;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.viewpayment-btn {
+  background-color: orangered;
+  color: white;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.viewpayment-btn:hover {
+  background-color: #e99f00;
+}
+
+.students-table {
+  width: 100%;
+  max-width: 1000px;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.students-table th,
+.students-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.students-table th {
+  background-color: #f9f9f9;
+  color: black;
+  font-weight: 700;
+}
+
+.students-table td {
+  color: #333;
+}
+
+.pay-btn {
+  background-color: yellowgreen;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.pay-btn:hover {
+  background-color: #cc3d00;
+}
+
+.loading-bar {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #555;
+  margin-top: 2rem;
+}
+
+.pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  background-color: orangered;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  background-color: #cc3d00;
+}
+
+.page-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-size: 1rem;
+  font-weight: 600;
+  color: black;
+}
+
+.form-wrapper-top {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  animation: fadeIn 0.3s ease-in-out;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  * {
+    box-sizing: border-box;
+  }
+
+  .admin-payment-container {
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto 1rem auto;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .payment-controls {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 1.5rem auto;
+    gap: 0.75rem;
+  }
+
+  .payment-controls input[type="text"] {
+    width: 100%;
+  }
+
+  .viewpayment-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .students-table,
+  .students-table thead,
+  .students-table tbody,
+  .students-table th,
+  .students-table td,
+  .students-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .students-table {
+    padding: 0;
+    margin: 0 auto;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .students-table tr {
+    background-color: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 16px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .students-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+    font-weight: 500;
+    word-break: break-word;
+  }
+
+  .students-table td:last-child {
+    border-bottom: none;
+  }
+
+  .students-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #555;
+    flex: 1;
+    padding-right: 10px;
+  }
+
+  .students-table th {
+    display: none;
+  }
+
+  .form-wrapper-top {
+    margin: 14px 0;
+    padding: 0 1rem;
+    width: 100%;
+    max-width: 95%;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+    align-items: center;
+  }
+
+  .page-info {
+    text-align: center;
+    width: 100%;
+  }
+
+  .students-table thead {
+    display: none !important;
+    height: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .students-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .students-table tr {
+    margin: 0 auto 12px auto;
+    border-radius: 10px;
+    width: 100%;
+    background-color: white;
+    padding: 0;
+  }
+
+  .students-table td {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+    font-size: 1rem;
+  }
+
+  .students-table {
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  .students-table tr {
+    margin: 0 auto 12px auto;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 95vw; /* key fix */
+    background-color: white;
+    padding: 0;
+  }
+  
+  .students-table td {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+    font-size: 1rem;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    flex-wrap: wrap; /* key fix */
+  }
+  
+
+}

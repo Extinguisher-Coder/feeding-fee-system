@@ -1,0 +1,386 @@
+.admin-students__page {
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.admin-students__container {
+  margin-top: 20px;
+}
+
+.admin-students__header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.admin-students__title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.admin-students__buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.admin-students__btn,
+.admin-students__action-btn {
+  padding: 10px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.admin-students__btn--add {
+  background-color: orangered;
+  color: white;
+}
+
+.admin-students__btn--print {
+  background-color: yellowgreen;
+  color: white;
+}
+
+.vview-btn{
+  background-color: #4caf50;
+  color: white;
+}
+
+.eedit-btn{
+  background-color: #2196f3;
+  color: white;
+}
+
+.ddelete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.admin-students__btn:hover,
+.admin-students__action-btn {
+  opacity: 0.8;
+}
+
+.admin-students__filter {
+  margin-bottom: 20px;
+}
+
+.admin-students__search {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid yellowgreen;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.admin-students__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-students__table th, 
+.admin-students__table td {
+  padding: 14px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.admin-students__table th {
+  background-color: #f9f9f9;
+  color: black;
+}
+
+.admin-students__table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.admin-students__table tbody tr:hover {
+  background-color: #f1f7f4;
+}
+
+.admin-students__actions {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.admin-students__loading {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: orangered;
+}
+
+.admin-students__pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-students__page-btn {
+  padding: 8px 16px;
+background-color: black;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-students__page-btn:hover {
+  background-color: blue;
+}
+
+.admin-students__page-btn--active {
+  background-color: orangered;
+}
+
+.print-header {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.school-logo,
+.school-name,
+.system-title,
+.printed-on {
+  display: none;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .admin-students__page.printing-mode,
+  .admin-students__page.printing-mode * {
+    visibility: visible;
+  }
+
+  .admin-students__page.printing-mode {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    color: black;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Hide non-print buttons and controls */
+  .admin-students__buttons,
+  .admin-students__filter,
+  .admin-students__pagination,
+  .admin-students__actions,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Display logo and titles properly */
+  .school-logo,
+  .school-name,
+  .system-title,
+  .printed-on {
+    display: block;
+  }
+
+  .school-logo {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto 8px auto;
+  }
+
+  .school-name {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: black;
+  }
+
+  .system-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 8px;
+  }
+
+  .printed-on {
+    font-size: 12px;
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: black;
+  }
+
+  /* Page Title */
+  .admin-students__title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0 10px 0;
+    color: black;
+    text-align: left;
+  }
+
+  /* Table Styling */
+  .admin-students__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+
+  .admin-students__table th,
+  .admin-students__table td {
+    border: 1px solid black;
+    padding: 6px;
+    text-align: left;
+  }
+
+  .admin-students__table th {
+    font-weight: bold;
+    background-color: #f0f0f0;
+  }
+}
+
+
+
+/* New responsive rules */
+
+
+/* New responsive rules */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden; /* Prevent horizontal scroll */
+  }
+
+  .admin-students__header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+    padding: 0 10px; /* Add side padding */
+  }
+
+  .admin-students__title {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .admin-students__buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .admin-students__btn,
+  .admin-students__action-btn {
+    width: 100%; /* Full width looks better now */
+    max-width: 400px; /* But limit max width */
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .admin-students__filter {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 10px;
+  }
+
+  .admin-students__search {
+    width: 100%;
+    max-width: 400px;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .admin-students__table {
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scroll */
+    display: block;
+    font-size: 14px;
+    margin-top: 15px;
+    /* REMOVE padding here */
+  }
+  
+  .admin-students__table table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px; /* You can even increase to 800px if you have many columns */
+  }
+  
+  .admin-students__table th, 
+  .admin-students__table td {
+    padding: 12px 8px; /* Add padding INSIDE the table cells */
+    white-space: nowrap;
+    text-align: left;
+  }
+  
+
+  .admin-students__pagination {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 20px;
+    padding: 0 10px;
+  }
+
+  .admin-students__page-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .admin-students__loading {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-students__title {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .admin-students__btn,
+  .admin-students__action-btn {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .admin-students__search {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .admin-students__page-btn {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .admin-students__loading {
+    font-size: 16px;
+    text-align: center;
+  }
+}
