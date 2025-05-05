@@ -1,5 +1,6 @@
-/* TodayReportPage.css */
+/* Base Styles */
 .tdr-today-report-container {
+  max-width: 1200px;
   width: 90%;
   margin: 2rem auto;
   padding: 2rem;
@@ -15,7 +16,7 @@
 
 .tdr-page-title {
   font-size: 2.5rem;
-  color: blue; 
+  color: blue;
   font-weight: bold;
   margin-bottom: 30px;
 }
@@ -23,22 +24,25 @@
 .tdr-total-amount {
   font-size: 1.2rem;
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .tdr-report-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 2rem;
+  overflow-x: auto;
 }
 
-.tdr-report-table th, .tdr-report-table td {
+.tdr-report-table th,
+.tdr-report-table td {
   padding: 10px;
   border: 1px solid #ddd;
   text-align: left;
 }
 
 .tdr-report-table th {
-  background-color: #f9f9f9; 
+  background-color: #f9f9f9;
   color: black;
 }
 
@@ -52,6 +56,8 @@
   font-size: 1.1rem;
   transition: background-color 0.3s ease;
   margin: 1rem 0;
+  display: block;
+  width: 100%;
 }
 
 .tdr-btn:hover {
@@ -75,28 +81,29 @@
 .tdr-report-controls {
   margin-bottom: 1.5rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 1rem;
 }
 
-.tdr-search-input {
+.tdr-search-input,
+.tdr-cashier-dropdown {
   padding: 10px 14px;
-  width: 600px;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 1rem;
+  width: 100%;
+  max-width: 600px;
 }
 
 .tdr-cashier-dropdown {
-  padding: 10px 14px;
-  width: 300px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+  max-width: 300px;
 }
 
 .tdr-pagination {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
   margin: 1.5rem 0;
 }
@@ -119,10 +126,12 @@
 .tdr-button-group {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-top: 1.5rem;
 }
 
+/* Hide for screen only */
 .tdr-school-logo,
 .tdr-school-name,
 .tdr-system-title,
@@ -130,7 +139,7 @@
   display: none;
 }
 
-/* PRINT STYLES */
+/* Print Styles */
 @media print {
   body * {
     visibility: hidden;
@@ -174,7 +183,6 @@
     width: 90px;
     height: 90px;
     object-fit: contain;
-    display: block;
     margin: 0 auto 8px auto;
   }
 
@@ -188,8 +196,8 @@
   .tdr-system-title {
     font-size: 16px;
     font-weight: 600;
-    color: black;
     margin-bottom: 8px;
+    color: black;
   }
 
   .tdr-printed-on {
@@ -207,23 +215,11 @@
     text-align: left;
   }
 
-  .tdr-today-date {
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: black;
-  }
-
+  .tdr-today-date,
   .tdr-total-amount {
     font-size: 14px;
-    font-weight: bold;
     color: black;
     margin: 10px 0;
-  }
-
-  .tdr-report-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
   }
 
   .tdr-report-table th,
@@ -232,35 +228,13 @@
     padding: 4px;
     text-align: left;
   }
-
-  .tdr-report-table th {
-    padding: 6px 8px;
-    font-weight: bold;
-  }
-
-  .tdr-report-table td {
-    padding: 4px 6px;
-  }
-
-  .tdr-total-amount {
-    font-size: 12px;
-    font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 5px;
-  }
-
-  /* Cashier dropdown for printing */
-  .tdr-cashier-dropdown {
-    display: block;
-  }
 }
 
-/* Mobile Responsive */
+/* Tablet and Down */
 @media (max-width: 768px) {
   .tdr-today-report-container {
-    width: 95%;
     padding: 1rem;
-    margin: 0 auto;
+    width: 95%;
   }
 
   .tdr-page-title {
@@ -268,129 +242,97 @@
     text-align: center;
   }
 
-  .tdr-total-amount {
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  .tdr-report-table th, .tdr-report-table td {
-    padding: 8px;
-    font-size: 1rem;
-  }
-
-  .tdr-btn {
-    padding: 10px 18px;
-    font-size: 1rem;
-    width: 100%;
-    margin: 1rem 0;
-    text-align: center;
-  }
-
-  .tdr-go-back-btn {
-    width: 100%;
-    text-align: center;
-  }
-
+  .tdr-total-amount,
   .tdr-loading {
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-align: center;
   }
 
-  .tdr-search-input {
+  .tdr-search-input,
+  .tdr-cashier-dropdown {
     width: 100%;
-    margin-bottom: 1rem;
-    text-align: center;
+    font-size: 0.95rem;
   }
 
   .tdr-pagination {
-    display: flex;
     flex-direction: column;
-    gap: 15px;
-    justify-content: center;
     align-items: center;
   }
 
   .tdr-page-btn {
     width: 100%;
     padding: 10px;
-    text-align: center;
   }
 
   .tdr-button-group {
-    display: flex;
     flex-direction: column;
-    gap: 10px;
     align-items: center;
   }
 
   .tdr-report-table {
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    margin-bottom: 1rem;
+    display: block;
   }
 
-  .tdr-report-table th, .tdr-report-table td {
-    font-size: 0.9rem;
+  .tdr-report-table th,
+  .tdr-report-table td {
+    font-size: 0.95rem;
     text-align: center;
   }
-}
 
-/* Very Small Screens */
-@media (max-width: 480px) {
-  .tdr-today-report-container {
-    padding: 0.5rem;
+  .tdr-report-controls {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tdr-search-input,
+  .tdr-cashier-dropdown {
     width: 100%;
-    margin: 0 auto;
-  }
-
-  .tdr-page-title {
-    font-size: 1.5rem;
-    text-align: center;
-  }
-
-  .tdr-report-table th, .tdr-report-table td {
-    padding: 6px;
-    font-size: 0.9rem;
-    text-align: center;
+    max-width: 300px;
+    margin-bottom: 0.5rem;
   }
 
   .tdr-btn {
-    padding: 8px 16px;
-    font-size: 0.9rem;
     width: 100%;
-    text-align: center;
+    max-width: 300px;
   }
 
-  .tdr-go-back-btn {
-    width: 100%;
-    text-align: center;
+}
+
+/* Very Small Devices */
+@media (max-width: 480px) {
+  .tdr-page-title {
+    font-size: 1.6rem;
   }
 
-  .tdr-loading {
-    font-size: 1rem;
-    text-align: center;
+  .tdr-btn,
+  .tdr-page-btn {
+    font-size: 0.95rem;
+    padding: 10px;
   }
 
   .tdr-search-input {
     padding: 8px;
-    width: 100%;
-    text-align: center;
   }
 
-  .tdr-pagination {
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+
+}
+
+/* Tiny Devices (e.g., iPhone SE) */
+@media (max-width: 360px) {
+  .tdr-page-title {
+    font-size: 1.4rem;
   }
 
-  .tdr-page-btn {
-    padding: 8px;
-    text-align: center;
+  .tdr-search-input,
+  .tdr-cashier-dropdown {
+    font-size: 0.9rem;
+    padding: 6px;
   }
 
-  .tdr-button-group {
-    gap: 8px;
-    align-items: center;
+  .tdr-report-table th,
+  .tdr-report-table td {
+    font-size: 0.85rem;
+    padding: 6px;
   }
 }

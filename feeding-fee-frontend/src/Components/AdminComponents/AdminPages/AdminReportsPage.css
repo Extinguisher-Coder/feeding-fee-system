@@ -308,9 +308,7 @@ body {
     align-items: flex-start;
   }
 
-  .admin-reports__search {
-    width: 100%;
-  }
+ 
 
   .admin-reports__total {
     width: 100%;
@@ -324,6 +322,13 @@ body {
   .admin-reports__table {
     margin-left: auto;
     margin-right: auto; /* ✅ visually center the table */
+  }
+
+  .admin-reports__search {
+    width: 50%;
+    max-width: 100px;
+    margin: 0 auto;
+    display: block;
   }
 
 }
