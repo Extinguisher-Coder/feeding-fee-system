@@ -50,7 +50,8 @@ const LoginPage = () => {
   
       // Redirect
       if (role === "Admin") navigate("/admin");
-      else if (role === "Cashier" || role === "Accountant") navigate("/cashier");
+      else if (role === "Accountant") navigate("/accountant");
+      else if (role === "Cashier") navigate("/cashier");
       else if (role === "Registrar") navigate("/registrar");
       else if (role === "Student") navigate("/parent");
       else navigate("/unauthorized");

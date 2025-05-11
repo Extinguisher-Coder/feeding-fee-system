@@ -28,6 +28,8 @@ import ParentChangePasswordForm from './Components/ParentCompents/ParentPages/Pa
 import ParentContactUsPage from './Components/ParentCompents/ParentPages/ParentContactUsPage';
 import AdminSystemLogsPage from './Components/AdminComponents/AdminPages/AdminSystemLogsPage';
 import AbsenteeismForm from './Components/AdminComponents/AdminPages/AbsenteeismForm';
+import AccountantDashboardLayout from './Components/AccountantComponents/AccountantLayouts/AccountantDashboardLayout';
+import CashierDashboardPage from './Components/CasherComponents/CasherPages/CashierDashboardPage';
 
 
 
@@ -48,17 +50,17 @@ function App() {
               <Route path="/admin" element={<AdminDashboardLayout />}>
                   <Route index element={<Navigate to="dashboard" replace />} />
                   <Route path="dashboard" element={<AdminDashboardPage />} />
-                  <Route path="students" element={<AdminStudentsPage />} />
+                  <Route path="/admin/students" element={<AdminStudentsPage />} />
                   <Route path="/admin/view-student/:id" element={<StudentInformationPage />} />
                   <Route path="/admin/edit-student/:id" element={<StudentUpdateForm />} />
                   <Route path="/admin/students/register" element={<StudentRegistrationPage />} />
-                  <Route path="payments" element={<AdminPaymentPage />} />
-                  <Route path="reports" element={<AdminReportsPage />} />
+                  <Route path="/admin/payments" element={<AdminPaymentPage />} />
+                  <Route path="/admin/reports" element={<AdminReportsPage />} />
                   <Route path="/admin/reports/today" element={<TodayReportPage />} />
                   <Route path="/admin/reports/weekly" element={<WeeklyReportPage />} />
                   <Route path="/admin/unpaid" element={<UnpaidReportPage />} />
-                  <Route path="settings" element={<SettingsPage />} />
-                  <Route path="users" element={<AdminUsersPage />} />
+                  <Route path="/admin/settings" element={<SettingsPage />} />
+                  <Route path="/admin/users" element={<AdminUsersPage />} />
                   <Route path="/admin/users/add" element={<AddUserForm />} />
                   <Route path="/admin/users/change-password" element={<ChangePasswordForm />} />
                   <Route path="/admin/users/reset-parent-password" element={<ResetParentPasswordForm />} />
@@ -90,24 +92,44 @@ function App() {
 
 
 
-         {/* .........Casher Route.......... */}
+         {/* .........Accountant Route.......... */}
 
-              <Route element={<ProtectedRoute allowedRoles={["Cashier", "Accountant"]} />}>
-                <Route path="/cashier" element={<CasherDashboardLayout />}>
+              <Route element={<ProtectedRoute allowedRoles={["Accountant"]} />}>
+                <Route path="/accountant" element={<AccountantDashboardLayout />}>
                       <Route index element={<Navigate to="dashboard" replace />} />
                       <Route path="dashboard" element={<AdminDashboardPage />} />
-                      <Route path="payments" element={<AdminPaymentPage />} />
-                      <Route path="reports" element={<AdminReportsPage />} />
+                      <Route path="/accountant/payments" element={<AdminPaymentPage />} />
+                      <Route path="/accountant/reports" element={<AdminReportsPage />} />
+                      <Route path="/accountant/reports/today" element={<TodayReportPage />} />
+                      <Route path="/accountant/reports/weekly" element={<WeeklyReportPage />} />
+                      <Route path="/accountant/unpaid" element={<UnpaidReportPage />} />
+                      <Route path="/accountant/change-password" element={<ChangePasswordForm />} />
+          
+         
+
+                </Route>
+              </Route>
+        
+
+        {/* .........Casher Route.......... */}
+
+        <Route element={<ProtectedRoute allowedRoles={["Cashier"]} />}>
+                <Route path="/cashier" element={<CasherDashboardLayout />}>
+                      <Route index element={<Navigate to="dashboard" replace />} />
+                      <Route path="dashboard" element={<CashierDashboardPage/>} />
+                      <Route path="/cashier/payments" element={<AdminPaymentPage />} />
+                      <Route path="/cashier/reports" element={<AdminReportsPage />} />
                       <Route path="/cashier/reports/today" element={<TodayReportPage />} />
                       <Route path="/cashier/reports/weekly" element={<WeeklyReportPage />} />
                       <Route path="/cashier/unpaid" element={<UnpaidReportPage />} />
-                      <Route path="change-password" element={<ChangePasswordForm />} />
+                      <Route path="/cashier/change-password" element={<ChangePasswordForm />} />
           
 
 
                 </Route>
               </Route>
         
+         
          
          {/* .........Parents Route.......... */}
 

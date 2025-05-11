@@ -89,7 +89,7 @@ const AdminReportsPage = () => {
                         navigate('/cashier/reports/today');
                       } 
                       else if (role === 'Accountant') {
-                        navigate('/cashier/reports/today');
+                        navigate('/accountant/reports/today');
                       } 
                       else {
                         navigate('/unauthorized'); // fallback or access denied
@@ -112,7 +112,7 @@ const AdminReportsPage = () => {
                         navigate('/cashier/reports/weekly');
                       } 
                       else if (role === 'Accountant') {
-                        navigate('/cashier/reports/weekly');
+                        navigate('/accountant/reports/weekly');
                       } 
                       else {
                         navigate('/unauthorized'); // fallback or access denied

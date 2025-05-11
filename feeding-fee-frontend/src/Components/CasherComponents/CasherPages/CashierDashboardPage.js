@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import './AdminDashboardPage.css';
+import './CashierDashboardPage.css';
 
 // ✅ Register required chart.js components
 import {
@@ -25,7 +25,7 @@ ChartJS.register(
   Legend
 );
 
-const AdminDashboardPage = () => {
+const CashierDashboardPage = () => {
   const [serverDate, setServerDate] = useState('');
   const [totalStudents, setTotalStudents] = useState(0);
   const [todaysCollection, setTodaysCollection] = useState(0);
@@ -228,25 +228,13 @@ const AdminDashboardPage = () => {
               <h2>{totalStudents}</h2>
             </div>
 
-            <div className="dash-card">
-              <p>Expected Amount</p>
-              <h2>GHS: {expectedCollection}</h2>
-            </div>
-
-            <div className="dash-card">
-              <p>Collected So Far</p>
-              <h2>GHS: {grandTotalCollection}</h2>
-            </div>
-
+            
             <div className="dash-card">
               <p>Today's Total Collection</p>
               <h2>GHS: {todaysCollection}</h2>
             </div>
 
-            <div className="dash-card">
-              <p>Total Users</p>
-              <h2>{totalUsers}</h2>
-            </div>
+            
           </div>
 
           <div className="dash-chart-container">
@@ -268,4 +256,4 @@ const AdminDashboardPage = () => {
   );
 };
 
-export default AdminDashboardPage;
+export default CashierDashboardPage;
