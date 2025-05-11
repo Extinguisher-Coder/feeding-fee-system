@@ -87,16 +87,36 @@ const getStudentById = async (req, res) => {
   }
 };
 
-// 📌 UPDATE - Update student info
 const updateStudent = async (req, res) => {
   try {
     const updatedStudent = await Student.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedStudent) return res.status(404).json({ error: 'Student not found' });
-    res.json({ message: 'Student updated', student: updatedStudent });
+
+    // ✅ Update Payment Record
+    await paymentModel.findOneAndUpdate(
+      { studentId: updatedStudent.studentId },
+      {
+        firstName: updatedStudent.firstName,
+        lastName: updatedStudent.lastName,
+        classLevel: updatedStudent.classLevel
+      }
+    );
+
+    // ✅ Update Parent Record
+    await ParentModel.findOneAndUpdate(
+      { studentId: updatedStudent.studentId },
+      {
+        studentName: `${updatedStudent.firstName} ${updatedStudent.lastName}`,
+        studentClass: updatedStudent.classLevel
+      }
+    );
+
+    res.json({ message: 'Student (and related records) updated successfully', student: updatedStudent });
   } catch (err) {
-    res.status(500).json({ error: 'Update failed' });
+    res.status(500).json({ error: 'Update failed', details: err.message });
   }
 };
+
 
 const recordLog = require('../utils/logger'); // ✅ Import the logger utility
 

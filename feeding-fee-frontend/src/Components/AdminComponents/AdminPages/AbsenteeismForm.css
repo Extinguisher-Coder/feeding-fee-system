@@ -1,0 +1,58 @@
+.absenteeism-form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #f4f7fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .absenteeism-form h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .absenteeism-form .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .absenteeism-form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  
+  .absenteeism-form input,
+  .absenteeism-form select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  
+  .absenteeism-form button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .absenteeism-form button:disabled {
+    background-color: #7baee0;
+    cursor: not-allowed;
+  }
+  
+  .absenteeism-form .message {
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-align: center;
+    color: green;
+  }
+  

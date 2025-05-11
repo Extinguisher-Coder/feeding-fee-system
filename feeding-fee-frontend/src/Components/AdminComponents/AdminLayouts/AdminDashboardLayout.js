@@ -89,6 +89,13 @@ const AdminDashboardLayout = () => {
             <img src={ReportsIcon} alt="Reports" className="nav-img" /> Reports
           </NavLink>
           <NavLink
+            to="/admin/absenteeism"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={closeSidebar}
+          >
+            <img src={ReportsIcon} alt="Absentees" className="nav-img" /> Absenteeism
+          </NavLink>
+          <NavLink
             to="/admin/users"
             className={({ isActive }) => (isActive ? "active" : "")}
             onClick={closeSidebar}

@@ -141,12 +141,84 @@ const getGrandTotalCollection = async (req, res) => {
   }
 };
 
+// 📌 MARK WEEK AS ABSENT OR OMITTED
+const markWeekAsStatus = async (req, res) => {
+  const { studentId, weekNumber } = req.params;
+  const { status } = req.body;
+
+  // Validate status
+  if (!['Absent', 'Omitted'].includes(status)) {
+    return res.status(400).json({ error: 'Invalid status. Must be "Absent" or "Omitted"' });
+  }
+
+  // Validate week number
+  const weekNum = parseInt(weekNumber, 10);
+  if (isNaN(weekNum) || weekNum < 1 || weekNum > 18) {
+    return res.status(400).json({ error: 'Invalid week number. Must be 1–18.' });
+  }
+
+  try {
+    const payment = await Payment.findOne({ studentId });
+    if (!payment) {
+      return res.status(404).json({ error: 'Payment record not found for this student' });
+    }
+
+    const weekKey = `Week${weekNum}`;
+    payment[weekKey] = status;
+
+    await payment.save();
+
+    res.status(200).json({
+      message: `Marked ${weekKey} as "${status}" for student ${studentId}`,
+      updatedWeek: weekKey,
+      status,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update week status', details: err.message });
+  }
+};
+
+// 📌 BULK MARK WEEK AS ABSENT OR OMITTED FOR ALL STUDENTS
+const markWeekAsStatusForAllStudents = async (req, res) => {
+  const { weekNumber } = req.params;
+  const { status } = req.body;
+
+  // Validate status
+  if (!['Absent', 'Omitted'].includes(status)) {
+    return res.status(400).json({ error: 'Invalid status. Must be "Absent" or "Omitted"' });
+  }
+
+  // Validate week number
+  const weekNum = parseInt(weekNumber, 10);
+  if (isNaN(weekNum) || weekNum < 1 || weekNum > 18) {
+    return res.status(400).json({ error: 'Invalid week number. Must be 1–18.' });
+  }
+
+  const weekKey = `Week${weekNum}`;
+
+  try {
+    const result = await Payment.updateMany({}, { [weekKey]: status });
+
+    res.status(200).json({
+      message: `All students marked as "${status}" for ${weekKey}.`,
+      modifiedCount: result.modifiedCount,
+      week: weekKey,
+      status,
+    });
+  } catch (err) {
+    console.error('Error marking week for all students:', err);
+    res.status(500).json({ error: 'Failed to mark week for all students', details: err.message });
+  }
+};
 
 
 
 // ✅ Export everything properly
 module.exports = {
   makePayment,
+  markWeekAsStatus,
+  markWeekAsStatusForAllStudents,
   getAllPayments,
   getPaymentsForStudent,
   getUnpaidStudentsByWeek,

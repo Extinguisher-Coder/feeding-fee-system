@@ -27,6 +27,7 @@ import UnpaidReportPage from './Components/AdminComponents/AdminPages/UnpaidRepo
 import ParentChangePasswordForm from './Components/ParentCompents/ParentPages/ParentChangePasswordForm';
 import ParentContactUsPage from './Components/ParentCompents/ParentPages/ParentContactUsPage';
 import AdminSystemLogsPage from './Components/AdminComponents/AdminPages/AdminSystemLogsPage';
+import AbsenteeismForm from './Components/AdminComponents/AdminPages/AbsenteeismForm';
 
 
 
@@ -62,6 +63,8 @@ function App() {
                   <Route path="/admin/users/change-password" element={<ChangePasswordForm />} />
                   <Route path="/admin/users/reset-parent-password" element={<ResetParentPasswordForm />} />
                   <Route path="/admin/logs" element={<AdminSystemLogsPage/>} />
+                  <Route path="/admin/absenteeism" element={<AbsenteeismForm/>} />
+                  
                   
 
               </Route>

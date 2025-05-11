@@ -39,13 +39,14 @@ const paymentSchema = new mongoose.Schema({
     default: ''
   },
   // Week fields
-  ...(() => {
-    const weeks = {};
-    for (let i = 1; i <= 18; i++) {
-      weeks[`Week${i}`] = { type: Number, default: 0 };
-    }
-    return weeks;
-  })()
+...(() => {
+  const weeks = {};
+  for (let i = 1; i <= 18; i++) {
+    weeks[`Week${i}`] = { type: mongoose.Schema.Types.Mixed, default: 0 };
+  }
+  return weeks;
+})()
+
 }, {
   timestamps: true
 });

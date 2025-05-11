@@ -7,6 +7,7 @@ const WeeklyReportPage = () => {
   const [terms, setTerms] = useState([]);
   const [selectedTerm, setSelectedTerm] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedClassLevel, setSelectedClassLevel] = useState(""); // 👈 Added here
   const [currentPage, setCurrentPage] = useState(1);
   const [isPrinting, setIsPrinting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -51,8 +52,9 @@ const WeeklyReportPage = () => {
 
   const filteredData = weeklyData.filter(
     (payment) =>
-      payment.studentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      `${payment.firstName} ${payment.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())
+      (payment.studentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      `${payment.firstName} ${payment.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (selectedClassLevel === "" || payment.classLevel === selectedClassLevel)
   );
 
   const indexOfLast = currentPage * paymentsPerPage;
@@ -71,7 +73,6 @@ const WeeklyReportPage = () => {
 
   const weeksToShow = selectedTerm?.numberOfWeeks || 18;
 
-  // Function to determine cell color based on value
   const getCellColor = (value) => {
     if (value === 0) return "red-cell";
     if (value === 50) return "green-cell";
@@ -106,6 +107,45 @@ const WeeklyReportPage = () => {
                 {term.termName}
               </option>
             ))}
+          </select>
+
+          <select
+            className="class-dropdown"
+            value={selectedClassLevel}
+            onChange={(e) => setSelectedClassLevel(e.target.value)}
+          >
+            <option value="">All Classes</option>
+            <option value="Year 1A">Year 1A</option>
+  <option value="Year 1B">Year 1B</option>
+  <option value="Year 2A">Year 2A</option>
+  <option value="Year 2B">Year 2B</option>
+  <option value="Year 3A">Year 3A</option>
+  <option value="Year 3B">Year 3B</option>
+  <option value="Year 4A">Year 4A</option>
+  <option value="Year 4B">Year 4B</option>
+  <option value="Year 5A">Year 5A</option>
+  <option value="Year 5B">Year 5B</option>
+  <option value="Year 6">Year 6</option>
+  <option value="Year 7">Year 7</option>
+  <option value="Year 8">Year 8</option>
+  <option value="GC 1">GC 1</option>
+  <option value="GC 2">GC 2</option>
+  <option value="GC 3">GC 3</option>
+  <option value="TT A">TT A</option>
+  <option value="TT B">TT B</option>
+  <option value="TT C">TT C</option>
+  <option value="TT D">TT D</option>
+  <option value="BB A">BB A</option>
+  <option value="BB B">BB B</option>
+  <option value="BB C">BB C</option>
+  <option value="RS A">RS A</option>
+  <option value="RS B">RS B</option>
+  <option value="RS C">RS C</option>
+  <option value="KKJ A">KKJ A</option>
+  <option value="KKJ B">KKJ B</option>
+  <option value="KKJ C">KKJ C</option>
+  <option value="KKS A">KKS A</option>
+  <option value="KKS B">KKS B</option>
           </select>
 
           <input
