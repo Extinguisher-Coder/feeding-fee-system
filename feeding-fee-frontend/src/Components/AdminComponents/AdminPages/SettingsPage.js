@@ -69,12 +69,52 @@ const SettingsPage = () => {
       : 'N/A';
   };
 
+  const handleStudentFileUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const text = e.target.result;
+      const rows = text.split('\n').filter(Boolean);
+      const headers = rows[0].split(',').map(h => h.trim());
+
+      const students = rows.slice(1).map(row => {
+        const values = row.split(',').map(v => v.trim());
+        return headers.reduce((obj, key, idx) => {
+          obj[key] = values[idx];
+          return obj;
+        }, {});
+      });
+
+      for (const student of students) {
+        try {
+          await axios.post(`${process.env.REACT_APP_BACKEND_API_URL}/students/register`, student);
+        } catch (err) {
+          console.error('Failed to upload student:', student, err);
+          alert(`Failed to upload: ${student.firstName} ${student.lastName}`);
+        }
+      }
+
+      alert('Student upload completed.');
+    };
+
+    reader.readAsText(file);
+  };
+
   return (
     <div className="settings-page-container">
       <h1 className="page-title">Settings - Manage Terms</h1>
 
       <div className="top-controls">
         <button className="add-term-btn" onClick={handleAddTermClick}>Add New Term</button>
+
+        {/* ✅ Upload Students Button */}
+        <label className="upload-students-btn">
+          Upload Students
+          <input type="file" accept=".csv" onChange={handleStudentFileUpload} hidden />
+        </label>
+
         <input
           type="text"
           className="search-input"

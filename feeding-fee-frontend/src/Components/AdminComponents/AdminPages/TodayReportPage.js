@@ -149,9 +149,7 @@ const TodayReportPage = () => {
         <div className="tdr-total-amount">
           <p>
             Total Amount Collected Today:{" "}
-            <strong>
-              GHS {filteredPayments.reduce((acc, p) => acc + p.amountPaid, 0)}
-            </strong>
+            <strong>GHS {filteredPayments.reduce((acc, p) => acc + p.amountPaid, 0)}</strong>
           </p>
         </div>
 
