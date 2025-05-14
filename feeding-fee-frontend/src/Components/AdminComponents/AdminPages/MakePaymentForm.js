@@ -5,6 +5,7 @@ import API_BASE_URL from '../../../config';
 
 const MakePaymentForm = ({ student, cashier, onClose }) => {
   const [currentTerm, setCurrentTerm] = useState(null);
+  const [isSaving, setIsSaving] = useState(false);
   const [form, setForm] = useState({
     studentId: student.studentId,
     firstName: student.firstName,
@@ -43,6 +44,8 @@ const MakePaymentForm = ({ student, cashier, onClose }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setIsSaving(true);
+
     try {
       await axios.post(`${API_BASE_URL}/payments/make/${form.studentId}`, {
         ...form,
@@ -53,6 +56,8 @@ const MakePaymentForm = ({ student, cashier, onClose }) => {
     } catch (err) {
       console.error(err);
       alert('❌ Failed to save payment.');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -112,7 +117,7 @@ const MakePaymentForm = ({ student, cashier, onClose }) => {
             onChange={handleChange}
             required
             min="1"
-            disabled={!currentTerm}
+            disabled={!currentTerm || isSaving}
           />
         </div>
 
@@ -120,11 +125,24 @@ const MakePaymentForm = ({ student, cashier, onClose }) => {
           <button
             type="submit"
             className="btn-save"
-            disabled={!currentTerm}
+            disabled={!currentTerm || isSaving}
           >
-            Save Payment
+            {isSaving ? (
+              <>
+                <span className="spinner"></span> Saving Payment...
+              </>
+            ) : (
+              'Save Payment'
+            )}
           </button>
-          <button type="button" className="btn-cancel" onClick={onClose}>Cancel</button>
+          <button
+            type="button"
+            className="btn-cancel"
+            onClick={onClose}
+            disabled={isSaving}
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </div>
