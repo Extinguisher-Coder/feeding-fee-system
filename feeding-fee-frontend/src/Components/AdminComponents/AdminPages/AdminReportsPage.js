@@ -6,13 +6,13 @@ import Logo from '../../Assets/images/logo-rmbg.png';
 
 const AdminReportsPage = () => {
   const navigate = useNavigate();
-  
+
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedWeek, setSelectedWeek] = useState('Week 1');
+  const [selectedCashier, setSelectedCashier] = useState('All');
   const [loading, setLoading] = useState(true);
   const [historyData, setHistoryData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(30);
   const [isPrinting, setIsPrinting] = useState(false);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const AdminReportsPage = () => {
     setTimeout(() => {
       window.print();
       setIsPrinting(false);
-    }, 500); // A small delay to ensure content is rendered
+    }, 500);
   };
 
   const handleSearchChange = (e) => {
@@ -43,14 +43,24 @@ const AdminReportsPage = () => {
     setCurrentPage(1);
   };
 
+  const handleCashierChange = (e) => {
+    setSelectedCashier(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const uniqueCashiers = ['All Cashiers', ...new Set(historyData.map(item => item.cashier))];
+
   const filteredData = historyData.filter((item) => {
     const searchText = searchQuery.toLowerCase();
-    return (
+    const matchesSearch =
       item.studentId.toLowerCase().includes(searchText) ||
       item.firstName.toLowerCase().includes(searchText) ||
       item.lastName.toLowerCase().includes(searchText) ||
-      item.classLevel.toLowerCase().includes(searchText)
-    );
+      item.classLevel.toLowerCase().includes(searchText);
+
+    const matchesCashier = selectedCashier === 'All' || item.cashier === selectedCashier;
+
+    return matchesSearch && matchesCashier;
   });
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -62,14 +72,11 @@ const AdminReportsPage = () => {
 
   return (
     <div className={`admin-reports__page ${isPrinting ? 'printing-mode' : ''}`}>
-
-          <div className="print-header">
-                  <img src={Logo} alt="School Logo" className="school-logo" />
-                  <h1 className="school-name">Westside Educational Complex</h1>
-                  <h2 className="system-title">
-                    Feeding Fees Collection Management System
-                  </h2>
-                </div>
+      <div className="print-header">
+        <img src={Logo} alt="School Logo" className="school-logo" />
+        <h1 className="school-name">Westside Educational Complex</h1>
+        <h2 className="system-title">Feeding Fees Collection Management System</h2>
+      </div>
 
       <div className="admin-reports__container">
         <header className="admin-reports__header">
@@ -77,51 +84,35 @@ const AdminReportsPage = () => {
         </header>
 
         <div className="admin-reports__buttons">
-        <button
-                  onClick={() => {
-                    const user = JSON.parse(localStorage.getItem('user'));
-                    const role = user?.role;
+          <button
+            onClick={() => {
+              const user = JSON.parse(localStorage.getItem('user'));
+              const role = user?.role;
 
-                      if (role === 'Admin') {
-                        navigate('/admin/reports/today');
-                      } 
-                      else if (role === 'Cashier') {
-                        navigate('/cashier/reports/today');
-                      } 
-                      else if (role === 'Accountant') {
-                        navigate('/accountant/reports/today');
-                      } 
-                      else {
-                        navigate('/unauthorized'); // fallback or access denied
-                      }
-                    }}
-                    className="admin-reports__btn admin-reports__btn--daily"
-                  >
-                    Today's Report
-                  </button>
+              if (role === 'Admin') navigate('/admin/reports/today');
+              else if (role === 'Cashier') navigate('/cashier/reports/today');
+              else if (role === 'Accountant') navigate('/accountant/reports/today');
+              else navigate('/unauthorized');
+            }}
+            className="admin-reports__btn admin-reports__btn--daily"
+          >
+            Today's Report
+          </button>
 
-        <button
-                  onClick={() => {
-                    const user = JSON.parse(localStorage.getItem('user'));
-                    const role = user?.role;
+          <button
+            onClick={() => {
+              const user = JSON.parse(localStorage.getItem('user'));
+              const role = user?.role;
 
-                      if (role === 'Admin') {
-                        navigate('/admin/reports/weekly');
-                      } 
-                      else if (role === 'Cashier') {
-                        navigate('/cashier/reports/weekly');
-                      } 
-                      else if (role === 'Accountant') {
-                        navigate('/accountant/reports/weekly');
-                      } 
-                      else {
-                        navigate('/unauthorized'); // fallback or access denied
-                      }
-                    }}
-                    className="admin-reports__btn admin-reports__btn--daily"
-                  >
-                      Weekly Report
-                  </button>
+              if (role === 'Admin') navigate('/admin/reports/weekly');
+              else if (role === 'Cashier') navigate('/cashier/reports/weekly');
+              else if (role === 'Accountant') navigate('/accountant/reports/weekly');
+              else navigate('/unauthorized');
+            }}
+            className="admin-reports__btn admin-reports__btn--daily"
+          >
+            Weekly Report
+          </button>
 
           <button onClick={handlePrint} className="admin-reports__btn admin-reports__btn--print">
             Print Report
@@ -136,8 +127,21 @@ const AdminReportsPage = () => {
             onChange={handleSearchChange}
             className="admin-reports__search"
           />
+
+          <select
+            value={selectedCashier}
+            onChange={handleCashierChange}
+            className="admin-reports__dropdown"
+          >
+            {uniqueCashiers.map((cashier, index) => (
+              <option key={index} value={cashier}>
+                {cashier}
+              </option>
+            ))}
+          </select>
+
           <div className="admin-reports__total">
-            <p>Total Amount Displayed: <br/> GHS {totalAmount}</p>
+            <p>Total Amount Collected: <br /> GHS {totalAmount}</p>
           </div>
         </div>
 
@@ -145,7 +149,6 @@ const AdminReportsPage = () => {
           <div className="admin-reports__loading">Loading...</div>
         ) : (
           <div>
-            {/* Report Table */}
             <table className="admin-reports__table">
               <thead>
                 <tr>
@@ -158,8 +161,7 @@ const AdminReportsPage = () => {
                 </tr>
               </thead>
               <tbody>
-              {(isPrinting ? filteredData : currentItems).map((item, index) => (
-
+                {(isPrinting ? filteredData : currentItems).map((item, index) => (
                   <tr key={index}>
                     <td>{item.studentId}</td>
                     <td>{item.firstName} {item.lastName}</td>
@@ -177,31 +179,41 @@ const AdminReportsPage = () => {
             </table>
 
             <div className="admin-reports__pagination">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index + 1}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`admin-reports__page-btn ${currentPage === index + 1 ? 'admin-reports__page-btn--active' : ''}`}
-                >
-                  {index + 1}
-                </button>
-              ))}
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                className="admin-reports__page-btn"
+              >
+                Previous
+              </button>
+
+              <span className="admin-reports__page-info">
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                className="admin-reports__page-btn"
+              >
+                Next
+              </button>
             </div>
           </div>
         )}
       </div>
+
       <p className="printed-on">
-        Printed on: {new Date().toLocaleString('en-GB', { 
-          weekday: 'short', 
-          year: 'numeric', 
-          month: 'short', 
-          day: '2-digit', 
-          hour: '2-digit', 
-          minute: '2-digit', 
-          second: '2-digit' 
+        Printed on: {new Date().toLocaleString('en-GB', {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'short',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
         })}
       </p>
-      
     </div>
   );
 };
