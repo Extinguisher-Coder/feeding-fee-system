@@ -75,15 +75,15 @@ body {
 }
 
 .admin-reports__btn--daily:hover {
-  background-color: #239b3b;
-}
-
-.admin-reports__btn--weekly {
   background-color: #E99F00;
 }
 
+.admin-reports__btn--weekly {
+  background-color: blue;
+}
+
 .admin-reports__btn--weekly:hover {
-  background-color: #c67f00;
+  background-color: #E99F00;
 }
 
 .admin-reports__btn--print {
@@ -91,7 +91,14 @@ body {
 }
 
 .admin-reports__btn--print:hover {
-  background-color: #f15b00;
+  background-color: #E99F00;
+}
+.admin-reports__btn--export {
+  background-color: green;
+}
+
+.admin-reports__btn--export:hover {
+  background-color: #E99F00;
 }
 
 /* Filters and Totals */

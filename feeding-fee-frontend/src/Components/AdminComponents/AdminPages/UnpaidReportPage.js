@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
+import * as XLSX from "xlsx";
 import "./UnpaidReportPage.css";
 import Logo from "../../Assets/images/logo-rmbg.png";
+
+const classOptions = [
+  "Year 1A", "Year 1B", "Year 2A", "Year 2B", "Year 3A", "Year 3B",
+  "Year 4A", "Year 4B", "Year 5A", "Year 5B", "Year 6", "Year 7", "Year 8",
+  "GC 1", "GC 2", "GC 3", "TT A", "TT B", "TT C", "TT D", "BB A", "BB B", "BB C",
+  "RS A", "RS B", "RS C", "KKJ A", "KKJ B", "KKJ C", "KKS A", "KKS B"
+];
 
 const UnpaidReportPage = () => {
   const [terms, setTerms] = useState([]);
@@ -8,6 +16,7 @@ const UnpaidReportPage = () => {
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [unpaidData, setUnpaidData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedClass, setSelectedClass] = useState("");
   const [isPrinting, setIsPrinting] = useState(false);
 
   useEffect(() => {
@@ -36,11 +45,7 @@ const UnpaidReportPage = () => {
           )}`
         );
         const data = await response.json();
-        if (Array.isArray(data)) {
-          setUnpaidData(data);
-        } else {
-          setUnpaidData([]);
-        }
+        setUnpaidData(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error("Error fetching unpaid students:", error);
         setUnpaidData([]);
@@ -50,13 +55,16 @@ const UnpaidReportPage = () => {
     fetchUnpaid();
   }, [selectedTerm, selectedWeek]);
 
-  const filteredData = unpaidData.filter(
-    (student) =>
+  const filteredData = unpaidData.filter((student) => {
+    const matchSearch =
       student.studentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
       `${student.firstName} ${student.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.classLevel?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-  
+      student.classLevel?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchClass = selectedClass ? student.classLevel === selectedClass : true;
+
+    return matchSearch && matchClass;
+  });
 
   const handlePrint = () => {
     setIsPrinting(true);
@@ -64,6 +72,21 @@ const UnpaidReportPage = () => {
       window.print();
       setIsPrinting(false);
     }, 500);
+  };
+
+  const handleExportToExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(
+      filteredData.map((student, index) => ({
+        SN: index + 1,
+        StudentID: student.studentId,
+        FullName: `${student.firstName} ${student.lastName}`,
+        Class: student.classLevel,
+        Term: student.termName,
+      }))
+    );
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Unpaid Report");
+    XLSX.writeFile(workbook, "Unpaid_Report.xlsx");
   };
 
   const numberOfWeeks = selectedTerm?.numberOfWeeks || 18;
@@ -88,7 +111,7 @@ const UnpaidReportPage = () => {
             onChange={(e) => {
               const term = terms.find((t) => t.termName === e.target.value);
               setSelectedTerm(term);
-              setSelectedWeek(1); // Reset week when term changes
+              setSelectedWeek(1);
             }}
           >
             {terms.map((term) => (
@@ -110,9 +133,22 @@ const UnpaidReportPage = () => {
             ))}
           </select>
 
+          <select
+            className="class-dropdown"
+            value={selectedClass}
+            onChange={(e) => setSelectedClass(e.target.value)}
+          >
+            <option value="">All Classes</option>
+            {classOptions.map((className) => (
+              <option key={className} value={className}>
+                {className}
+              </option>
+            ))}
+          </select>
+
           <input
             type="text"
-            placeholder="Search by ID or Name or Class..."
+            placeholder="Search by ID or Name...."
             className="search-input"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -122,6 +158,7 @@ const UnpaidReportPage = () => {
         <table className="unpaid-table">
           <thead>
             <tr>
+              <th>SN</th>
               <th>Student ID</th>
               <th>Full Name</th>
               <th>Class</th>
@@ -130,8 +167,9 @@ const UnpaidReportPage = () => {
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
-              filteredData.map((student) => (
+              filteredData.map((student, index) => (
                 <tr key={student._id}>
+                  <td>{index + 1}</td>
                   <td>{student.studentId}</td>
                   <td>{`${student.firstName} ${student.lastName}`}</td>
                   <td>{student.classLevel}</td>
@@ -140,7 +178,7 @@ const UnpaidReportPage = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4">No unpaid students found</td>
+                <td colSpan="5">No unpaid students found</td>
               </tr>
             )}
           </tbody>
@@ -150,6 +188,9 @@ const UnpaidReportPage = () => {
           <div className="button-group">
             <button className="btn print-btn" onClick={handlePrint}>
               Print Report
+            </button>
+            <button className="btn export-btn" onClick={handleExportToExcel}>
+              Export to Excel
             </button>
             <button className="btn go-back-btn" onClick={() => window.history.back()}>
               Go Back

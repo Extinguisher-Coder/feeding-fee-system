@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./TodayReportPage.css";
 import Logo from "../../Assets/images/logo-rmbg.png";
+import * as XLSX from "xlsx";
+
+const classOptions = [
+  "Year 1A", "Year 1B", "Year 2A", "Year 2B", "Year 3A", "Year 3B",
+  "Year 4A", "Year 4B", "Year 5A", "Year 5B", "Year 6", "Year 7", "Year 8",
+  "GC 1", "GC 2", "GC 3", "TT A", "TT B", "TT C", "TT D", "BB A", "BB B", "BB C",
+  "RS A", "RS B", "RS C", "KKJ A", "KKJ B", "KKJ C", "KKS A", "KKS B"
+];
 
 const TodayReportPage = () => {
   const [todayPayments, setTodayPayments] = useState([]);
@@ -10,10 +18,11 @@ const TodayReportPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [cashiers, setCashiers] = useState([]);
   const [selectedCashier, setSelectedCashier] = useState("");
+  const [selectedClass, setSelectedClass] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isPrinting, setIsPrinting] = useState(false);
 
-  const paymentsPerPage = 10;
+  const paymentsPerPage = 30;
 
   const getTodayDateParam = () => {
     const today = new Date();
@@ -38,9 +47,7 @@ const TodayReportPage = () => {
       const data = await response.json();
       setTodayPayments(data);
       setFilteredPayments(data);
-      const total = data.reduce((acc, payment) => acc + payment.amountPaid, 0);
-      setTotalAmount(total);
-
+      setTotalAmount(data.reduce((acc, payment) => acc + payment.amountPaid, 0));
       const cashierNames = [...new Set(data.map((p) => p.cashier))];
       setCashiers(cashierNames);
     } catch (error) {
@@ -68,14 +75,16 @@ const TodayReportPage = () => {
     }
 
     if (selectedCashier) {
-      filtered = filtered.filter(
-        (payment) => payment.cashier === selectedCashier
-      );
+      filtered = filtered.filter(payment => payment.cashier === selectedCashier);
+    }
+
+    if (selectedClass) {
+      filtered = filtered.filter(payment => payment.classLevel === selectedClass);
     }
 
     setFilteredPayments(filtered);
     setCurrentPage(1);
-  }, [searchTerm, selectedCashier, todayPayments]);
+  }, [searchTerm, selectedCashier, selectedClass, todayPayments]);
 
   const indexOfLast = currentPage * paymentsPerPage;
   const indexOfFirst = indexOfLast - paymentsPerPage;
@@ -99,6 +108,29 @@ const TodayReportPage = () => {
     }, 500);
   };
 
+  const handleExportToExcel = () => {
+    const exportData = filteredPayments.map((p, index) => ({
+      SN: index + 1,
+      StudentID: p.studentId,
+      Name: `${p.firstName} ${p.lastName}`,
+      Class: p.classLevel,
+      AmountPaid: p.amountPaid,
+      PaymentDate: new Date(p.paymentDate).toLocaleDateString("en-US", {
+        month: "short",
+        day: "2-digit",
+        year: "numeric",
+      }),
+      Cashier: p.cashier,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Today_Report");
+
+    const fileName = `Today_Report_${getTodayDateParam()}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
+  };
+
   return (
     <div className={`tdr-print-wrapper ${isPrinting ? "tdr-printing-mode" : ""}`}>
       <div className="tdr-print-header">
@@ -120,29 +152,40 @@ const TodayReportPage = () => {
         <div className="tdr-report-controls">
           <input
             type="text"
-            placeholder="Search by ID, name, class..."
+            placeholder="Search by ID, name ....."
             className="tdr-search-input"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          {isPrinting ? (
-            <span className="tdr-cashier-selected">
-              {selectedCashier || "All Cashiers"}
-            </span>
-          ) : (
-            <select
-              className="tdr-cashier-dropdown"
-              value={selectedCashier}
-              onChange={(e) => setSelectedCashier(e.target.value)}
-            >
-              <option value="">All Cashiers</option>
-              {cashiers.map((cashier, index) => (
-                <option key={index} value={cashier}>
-                  {cashier}
-                </option>
-              ))}
-            </select>
+          {!isPrinting && (
+            <>
+              <select
+                className="tdr-dropdown"
+                value={selectedCashier}
+                onChange={(e) => setSelectedCashier(e.target.value)}
+              >
+                <option value="">All Cashiers</option>
+                {cashiers.map((cashier, index) => (
+                  <option key={index} value={cashier}>
+                    {cashier}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="tdr-dropdown"
+                value={selectedClass}
+                onChange={(e) => setSelectedClass(e.target.value)}
+              >
+                <option value="">All Classes</option>
+                {classOptions.map((className, index) => (
+                  <option key={index} value={className}>
+                    {className}
+                  </option>
+                ))}
+              </select>
+            </>
           )}
         </div>
 
@@ -159,6 +202,7 @@ const TodayReportPage = () => {
           <table className="tdr-report-table">
             <thead>
               <tr>
+                <th>SN</th>
                 <th>Student ID</th>
                 <th>Name</th>
                 <th>Class</th>
@@ -169,8 +213,9 @@ const TodayReportPage = () => {
             </thead>
             <tbody>
               {paymentsToShow.length > 0 ? (
-                paymentsToShow.map((payment) => (
+                paymentsToShow.map((payment, index) => (
                   <tr key={payment._id}>
+                    <td>{indexOfFirst + index + 1}</td>
                     <td>{payment.studentId}</td>
                     <td>{`${payment.firstName} ${payment.lastName}`}</td>
                     <td>{payment.classLevel}</td>
@@ -186,7 +231,7 @@ const TodayReportPage = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No payments found</td>
+                  <td colSpan="7">No payments found</td>
                 </tr>
               )}
             </tbody>
@@ -220,6 +265,9 @@ const TodayReportPage = () => {
             <div className="tdr-button-group">
               <button className="tdr-btn tdr-print-btn" onClick={handlePrint}>
                 Print Report
+              </button>
+              <button className="tdr-btn tdr-btn-export" onClick={handleExportToExcel}>
+                Export to Excel
               </button>
               <button
                 className="tdr-btn tdr-go-back-btn"

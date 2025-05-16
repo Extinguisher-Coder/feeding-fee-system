@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import * as XLSX from "xlsx";
 import "./WeeklyReportPage.css";
 import Logo from "../../Assets/images/logo-rmbg.png";
 
@@ -7,7 +8,7 @@ const WeeklyReportPage = () => {
   const [terms, setTerms] = useState([]);
   const [selectedTerm, setSelectedTerm] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedClassLevel, setSelectedClassLevel] = useState(""); // 👈 Added here
+  const [selectedClassLevel, setSelectedClassLevel] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [isPrinting, setIsPrinting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +25,6 @@ const WeeklyReportPage = () => {
         console.error("Error fetching terms:", error);
       }
     };
-
     fetchTerms();
   }, []);
 
@@ -46,14 +46,13 @@ const WeeklyReportPage = () => {
         setIsLoading(false);
       }
     };
-
     fetchWeeklyPayments();
   }, [selectedTerm]);
 
   const filteredData = weeklyData.filter(
     (payment) =>
       (payment.studentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      `${payment.firstName} ${payment.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        `${payment.firstName} ${payment.lastName}`.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (selectedClassLevel === "" || payment.classLevel === selectedClassLevel)
   );
 
@@ -69,6 +68,26 @@ const WeeklyReportPage = () => {
       window.print();
       setIsPrinting(false);
     }, 500);
+  };
+
+  const handleExport = () => {
+    const exportData = filteredData.map((payment, index) => {
+      const row = {
+        SN: index + 1,
+        StudentID: payment.studentId,
+        FullName: `${payment.firstName} ${payment.lastName}`,
+        Term: payment.termName,
+      };
+      for (let i = 1; i <= (selectedTerm?.numberOfWeeks || 18); i++) {
+        row[`W${i}`] = payment[`Week${i}`] || 0;
+      }
+      return row;
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "WeeklyReport");
+    XLSX.writeFile(workbook, `Weekly_Report_${selectedTerm?.termName}.xlsx`);
   };
 
   const weeksToShow = selectedTerm?.numberOfWeeks || 18;
@@ -115,37 +134,14 @@ const WeeklyReportPage = () => {
             onChange={(e) => setSelectedClassLevel(e.target.value)}
           >
             <option value="">All Classes</option>
-            <option value="Year 1A">Year 1A</option>
-  <option value="Year 1B">Year 1B</option>
-  <option value="Year 2A">Year 2A</option>
-  <option value="Year 2B">Year 2B</option>
-  <option value="Year 3A">Year 3A</option>
-  <option value="Year 3B">Year 3B</option>
-  <option value="Year 4A">Year 4A</option>
-  <option value="Year 4B">Year 4B</option>
-  <option value="Year 5A">Year 5A</option>
-  <option value="Year 5B">Year 5B</option>
-  <option value="Year 6">Year 6</option>
-  <option value="Year 7">Year 7</option>
-  <option value="Year 8">Year 8</option>
-  <option value="GC 1">GC 1</option>
-  <option value="GC 2">GC 2</option>
-  <option value="GC 3">GC 3</option>
-  <option value="TT A">TT A</option>
-  <option value="TT B">TT B</option>
-  <option value="TT C">TT C</option>
-  <option value="TT D">TT D</option>
-  <option value="BB A">BB A</option>
-  <option value="BB B">BB B</option>
-  <option value="BB C">BB C</option>
-  <option value="RS A">RS A</option>
-  <option value="RS B">RS B</option>
-  <option value="RS C">RS C</option>
-  <option value="KKJ A">KKJ A</option>
-  <option value="KKJ B">KKJ B</option>
-  <option value="KKJ C">KKJ C</option>
-  <option value="KKS A">KKS A</option>
-  <option value="KKS B">KKS B</option>
+            {[
+              "Year 1A", "Year 1B", "Year 2A", "Year 2B", "Year 3A", "Year 3B",
+              "Year 4A", "Year 4B", "Year 5A", "Year 5B", "Year 6", "Year 7", "Year 8",
+              "GC 1", "GC 2", "GC 3", "TT A", "TT B", "TT C", "TT D", "BB A", "BB B", "BB C",
+              "RS A", "RS B", "RS C", "KKJ A", "KKJ B", "KKJ C", "KKS A", "KKS B"
+            ].map((className) => (
+              <option key={className} value={className}>{className}</option>
+            ))}
           </select>
 
           <input
@@ -163,6 +159,7 @@ const WeeklyReportPage = () => {
           <table className="report-table">
             <thead>
               <tr>
+                <th>SN</th>
                 <th>Student ID</th>
                 <th>Full Name</th>
                 <th>Term</th>
@@ -173,8 +170,9 @@ const WeeklyReportPage = () => {
             </thead>
             <tbody>
               {paymentsToShow.length > 0 ? (
-                paymentsToShow.map((payment) => (
+                paymentsToShow.map((payment, index) => (
                   <tr key={payment._id}>
+                    <td>{(currentPage - 1) * paymentsPerPage + index + 1}</td>
                     <td>{payment.studentId}</td>
                     <td>{`${payment.firstName} ${payment.lastName}`}</td>
                     <td>{payment.termName}</td>
@@ -190,7 +188,7 @@ const WeeklyReportPage = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={weeksToShow + 3}>No payments found for this term.</td>
+                  <td colSpan={weeksToShow + 4}>No payments found for this term.</td>
                 </tr>
               )}
             </tbody>
@@ -222,6 +220,9 @@ const WeeklyReportPage = () => {
             <div className="button-group">
               <button className="btn print-btn" onClick={handlePrint}>
                 Print Report
+              </button>
+              <button className="btn excel-btn" onClick={handleExport}>
+                Export to Excel
               </button>
               <button className="btn go-back-btn" onClick={() => window.history.back()}>
                 Go Back
