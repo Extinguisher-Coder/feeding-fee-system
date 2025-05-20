@@ -38,6 +38,12 @@ const paymentSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  absenteeism: {
+  type: Map,
+  of: String,
+  default: {} // Example: { Week1: 'Cashier A', Week4: 'Cashier B' }
+},
+
   // Week fields
 ...(() => {
   const weeks = {};

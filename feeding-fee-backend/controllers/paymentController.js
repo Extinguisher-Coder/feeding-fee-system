@@ -7,35 +7,34 @@ const distributeWeeks = require('../utils/distributeWeeks'); // ✅ Import helpe
 // 📌 MAKE PAYMENT
 const makePayment = async (req, res) => {
   try {
-    const { amount, termName, cashier } = req.body; // ✅ Get cashier from form
+    const { amount, termName, cashier } = req.body;
     const studentId = req.params.studentId;
 
-    // ✅ Validate input
     if (!amount || !termName || !cashier) {
       return res.status(400).json({ error: 'Amount, term name, and cashier are required' });
     }
 
-    // ✅ Find the payment record for the student
     const payment = await Payment.findOne({ studentId });
     if (!payment) {
       return res.status(404).json({ error: 'Payment record not found for this student' });
     }
 
-    // ✅ Optional: Validate term exists
     const term = await Term.findOne({ termName: termName.trim() });
     if (!term) {
       return res.status(400).json({ error: 'Invalid term name' });
     }
 
-    // ✅ Update the payment
+    // Update basic payment info
     payment.lastAmountPaid = amount;
     payment.totalAmountPaid += amount;
     payment.lastPaymentDate = new Date();
     payment.termName = termName;
     payment.cashier = cashier;
 
-    // ✅ Distribute total amount into Week1–Week18
-    const weekDistribution = distributeWeeks(payment.totalAmountPaid);
+    // Pass the existing payment document to distributeWeeks to skip 'Absent'/'Omitted'
+    const weekDistribution = distributeWeeks(payment.totalAmountPaid, payment);
+
+    // Assign distributed values back, preserving "Absent"/"Omitted" weeks
     for (let i = 1; i <= 18; i++) {
       const weekKey = `Week${i}`;
       payment[weekKey] = weekDistribution[weekKey];
@@ -43,7 +42,7 @@ const makePayment = async (req, res) => {
 
     await payment.save();
 
-    // ✅ Log to history
+    // Log to history as before
     const historyRecord = new History({
       paymentDate: new Date(),
       studentId: payment.studentId,
@@ -54,19 +53,18 @@ const makePayment = async (req, res) => {
       termName,
       cashier,
     });
-
     await historyRecord.save();
 
     res.status(200).json({
       message: 'Payment successfully processed and history recorded.',
       payment,
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Payment failed', details: err.message });
   }
 };
+
 
 // 📌 GET all payments (optionally filtered by termName)
 const getAllPayments = async (req, res) => {
@@ -141,17 +139,20 @@ const getGrandTotalCollection = async (req, res) => {
   }
 };
 
-// 📌 MARK WEEK AS ABSENT OR OMITTED
+
+// 📌 MARK WEEK AS ABSENT OR OMITTED (Single Student)
 const markWeekAsStatus = async (req, res) => {
   const { studentId, weekNumber } = req.params;
-  const { status } = req.body;
+  const { status, cashier } = req.body;
 
-  // Validate status
   if (!['Absent', 'Omitted'].includes(status)) {
     return res.status(400).json({ error: 'Invalid status. Must be "Absent" or "Omitted"' });
   }
 
-  // Validate week number
+  if (!cashier || typeof cashier !== 'string') {
+    return res.status(400).json({ error: 'Cashier name is required and must be a string.' });
+  }
+
   const weekNum = parseInt(weekNumber, 10);
   if (isNaN(weekNum) || weekNum < 1 || weekNum > 18) {
     return res.status(400).json({ error: 'Invalid week number. Must be 1–18.' });
@@ -164,14 +165,29 @@ const markWeekAsStatus = async (req, res) => {
     }
 
     const weekKey = `Week${weekNum}`;
+
+    // Set the week as Absent/Omitted
     payment[weekKey] = status;
+
+    // Track who made the update
+    payment.absenteeism.set(weekKey, cashier);
+
+    // Redistribute remaining amount to non-static weeks
+    const redistributed = distributeWeeks(payment.totalAmountPaid, payment);
+
+    for (let i = 1; i <= 18; i++) {
+  const key = `Week${i}`;
+  // ✅ Do NOT overwrite static status weeks
+  if (payment[key] === 'Absent' || payment[key] === 'Omitted') continue;
+  payment[key] = redistributed[key];
+}
+
 
     await payment.save();
 
     res.status(200).json({
-      message: `Marked ${weekKey} as "${status}" for student ${studentId}`,
-      updatedWeek: weekKey,
-      status,
+      message: `Marked ${weekKey} as "${status}" for student ${studentId} and redistributed payments.`,
+      payment,
     });
   } catch (err) {
     console.error(err);
@@ -179,17 +195,19 @@ const markWeekAsStatus = async (req, res) => {
   }
 };
 
-// 📌 BULK MARK WEEK AS ABSENT OR OMITTED FOR ALL STUDENTS
+// 📌 MARK WEEK AS ABSENT OR OMITTED FOR ALL STUDENTS
 const markWeekAsStatusForAllStudents = async (req, res) => {
   const { weekNumber } = req.params;
-  const { status } = req.body;
+  const { status, cashier } = req.body;
 
-  // Validate status
   if (!['Absent', 'Omitted'].includes(status)) {
     return res.status(400).json({ error: 'Invalid status. Must be "Absent" or "Omitted"' });
   }
 
-  // Validate week number
+  if (!cashier || typeof cashier !== 'string') {
+    return res.status(400).json({ error: 'Cashier name is required and must be a string.' });
+  }
+
   const weekNum = parseInt(weekNumber, 10);
   if (isNaN(weekNum) || weekNum < 1 || weekNum > 18) {
     return res.status(400).json({ error: 'Invalid week number. Must be 1–18.' });
@@ -198,13 +216,32 @@ const markWeekAsStatusForAllStudents = async (req, res) => {
   const weekKey = `Week${weekNum}`;
 
   try {
-    const result = await Payment.updateMany({}, { [weekKey]: status });
+    const payments = await Payment.find();
+
+    const updates = payments.map(async (payment) => {
+      payment[weekKey] = status;
+      payment.absenteeism.set(weekKey, cashier);
+
+      const redistributed = distributeWeeks(payment.totalAmountPaid, payment);
+
+      for (let i = 1; i <= 18; i++) {
+  const key = `Week${i}`;
+  if (payment[key] === 'Absent' || payment[key] === 'Omitted') continue;
+  payment[key] = redistributed[key];
+}
+
+
+      return payment.save();
+    });
+
+    await Promise.all(updates);
 
     res.status(200).json({
-      message: `All students marked as "${status}" for ${weekKey}.`,
-      modifiedCount: result.modifiedCount,
+      message: `All students marked as "${status}" for ${weekKey} by ${cashier}, and payments redistributed.`,
       week: weekKey,
       status,
+      cashier,
+      count: payments.length
     });
   } catch (err) {
     console.error('Error marking week for all students:', err);
@@ -212,6 +249,43 @@ const markWeekAsStatusForAllStudents = async (req, res) => {
   }
 };
 
+const getAbsentStudents = async (req, res) => {
+  try {
+    const payments = await Payment.find();
+
+    const absentList = payments
+      .map((payment) => {
+        const absentWeeks = [];
+
+        // Loop through Week1 to Week18
+        for (let i = 1; i <= 18; i++) {
+          const weekKey = `Week${i}`;
+          if (payment[weekKey] === 'Absent') {
+            const cashier = payment.absenteeism?.get(weekKey) || 'N/A';
+            absentWeeks.push(`${weekKey} (${cashier})`);
+          }
+        }
+
+        if (absentWeeks.length > 0) {
+          return {
+            studentId: payment.studentId,
+            firstName: payment.firstName,
+            lastName: payment.lastName,
+            classLevel: payment.classLevel,
+            absenteeism: absentWeeks.join(', ')
+          };
+        }
+
+        return null;
+      })
+      .filter(Boolean); // remove nulls
+
+    res.status(200).json(absentList);
+  } catch (error) {
+    console.error('Error fetching absent students:', error);
+    res.status(500).json({ message: 'Failed to fetch absent students' });
+  }
+};
 
 
 // ✅ Export everything properly
@@ -223,4 +297,5 @@ module.exports = {
   getPaymentsForStudent,
   getUnpaidStudentsByWeek,
   getGrandTotalCollection,
+  getAbsentStudents,
 };

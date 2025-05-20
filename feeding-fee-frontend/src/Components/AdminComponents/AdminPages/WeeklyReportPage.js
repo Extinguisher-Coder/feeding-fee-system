@@ -95,6 +95,8 @@ const WeeklyReportPage = () => {
   const getCellColor = (value) => {
     if (value === 0) return "red-cell";
     if (value === 50) return "green-cell";
+    if (value === "Omitted") return "brown-cell";
+    if (value === "Absent") return "blue-cell";
     if (value > 0 && value < 50) return "yellow-cell";
     return "";
   };

@@ -1,26 +1,30 @@
-// utils/distributeWeeks.js
-function distributeWeeks(totalAmount) {
-    const weekFields = {};
-    let remaining = totalAmount;
-  
-    for (let i = 1; i <= 18; i++) {
-      const weekKey = `Week${i}`;
+function distributeWeeks(totalAmount, currentPayment) {
+  const weekFields = {};
+  let remaining = totalAmount;
+
+  for (let i = 1; i <= 18; i++) {
+    const weekKey = `Week${i}`;
+
+    // Check current value from currentPayment
+    const currentValue = currentPayment?.[weekKey];
+
+    // ✅ If marked as 'Absent' or 'Omitted', preserve it
+    if (typeof currentValue === 'string' && (currentValue === 'Absent' || currentValue === 'Omitted')) {
+      weekFields[weekKey] = currentValue;
+      continue; // skip to next week
+    }
+
+    // ✅ Assign up to 50 (or whatever remains), skip if nothing left
+    if (remaining > 0) {
       const value = Math.min(50, remaining);
       weekFields[weekKey] = value;
       remaining -= value;
-      if (remaining <= 0) break;
+    } else {
+      weekFields[weekKey] = 0;
     }
-  
-    // Fill remaining weeks with 0
-    for (let i = 1; i <= 18; i++) {
-      const weekKey = `Week${i}`;
-      if (!(weekKey in weekFields)) {
-        weekFields[weekKey] = 0;
-      }
-    }
-  
-    return weekFields;
   }
-  
-  module.exports = distributeWeeks;
-  
+
+  return weekFields;
+}
+
+module.exports = distributeWeeks;

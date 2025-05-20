@@ -1,58 +1,68 @@
-.absenteeism-form-container {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #f4f7fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .absenteeism-form h2 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    text-align: center;
-  }
-  
-  .absenteeism-form .form-group {
-    margin-bottom: 1rem;
-  }
-  
-  .absenteeism-form label {
-    display: block;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-  }
-  
-  .absenteeism-form input,
-  .absenteeism-form select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 1rem;
-  }
-  
-  .absenteeism-form button {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    font-size: 1rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
-  }
-  
-  .absenteeism-form button:disabled {
-    background-color: #7baee0;
-    cursor: not-allowed;
-  }
-  
-  .absenteeism-form .message {
-    margin-top: 1rem;
-    font-size: 1rem;
-    text-align: center;
-    color: green;
-  }
-  
+.absentee-form-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.absentee-form h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.absentee-form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.absentee-form-row label {
+  font-weight: bold;
+  width: 120px;
+}
+
+.absentee-form-row span {
+  flex: 1;
+  padding-left: 10px;
+}
+
+.absentee-form-row select {
+  flex: 1;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.absentee-form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.absentee-form .absentee-btn {
+  padding: 8px 14px;
+  background-color: #007bff;
+  color: white;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.absentee-form .absentee-btn:hover {
+  background-color: #0056b3;
+}
+
+.absentee-form .absentee-btn.cancel {
+  background-color: #6c757d;
+}
+
+.absentee-form .absentee-btn.cancel:hover {
+  background-color: #5a6268;
+}
+
+.absent-status {
+  font-weight: bold;
+  color: red;
+}

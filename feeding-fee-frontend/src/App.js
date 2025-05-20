@@ -30,6 +30,9 @@ import AdminSystemLogsPage from './Components/AdminComponents/AdminPages/AdminSy
 import AbsenteeismForm from './Components/AdminComponents/AdminPages/AbsenteeismForm';
 import AccountantDashboardLayout from './Components/AccountantComponents/AccountantLayouts/AccountantDashboardLayout';
 import CashierDashboardPage from './Components/CasherComponents/CasherPages/CashierDashboardPage';
+import AbsenteeismPage from './Components/AdminComponents/AdminPages/AbsenteeismPage';
+import AbsentListPage from './Components/AdminComponents/AdminPages/AbsentListPage';
+import SummaryPage from './Components/AdminComponents/AdminPages/SummaryPage';
 
 
 
@@ -65,7 +68,9 @@ function App() {
                   <Route path="/admin/users/change-password" element={<ChangePasswordForm />} />
                   <Route path="/admin/users/reset-parent-password" element={<ResetParentPasswordForm />} />
                   <Route path="/admin/logs" element={<AdminSystemLogsPage/>} />
-                  <Route path="/admin/absenteeism" element={<AbsenteeismForm/>} />
+                  <Route path="/admin/absenteeism" element={<AbsenteeismPage/>} />
+                  <Route path="/admin/absentees" element={<AbsentListPage/>} />
+                  <Route path="/admin/summary" element={<SummaryPage/>} />
                   
                   
 
@@ -104,7 +109,8 @@ function App() {
                       <Route path="/accountant/reports/weekly" element={<WeeklyReportPage />} />
                       <Route path="/accountant/unpaid" element={<UnpaidReportPage />} />
                       <Route path="/accountant/change-password" element={<ChangePasswordForm />} />
-          
+                      <Route path="/accountant/summary" element={<SummaryPage />} />
+                       
          
 
                 </Route>

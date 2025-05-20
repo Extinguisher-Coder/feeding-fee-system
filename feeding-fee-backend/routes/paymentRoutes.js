@@ -9,34 +9,25 @@ const {
   getGrandTotalCollection,
   markWeekAsStatus,
   markWeekAsStatusForAllStudents,
-
+  getAbsentStudents,
 } = require('../controllers/paymentController');
 
 // ----------------------
 // PAYMENT ROUTES
 // ----------------------
 
-// POST: Make a payment for a student by their ID
-router.post('/make/:studentId', makePayment);
+// MARK STATUS ROUTES (Absent/Omitted)
+router.put('/mark-week-all/:weekNumber', markWeekAsStatusForAllStudents); // Mark for all students
+router.put('/mark-week/:studentId/:weekNumber', markWeekAsStatus);        // Mark for one student
 
-// PUT: Mark a week's status (Absent/Omitted) for a student
-router.put('/mark-week/:studentId/:weekNumber', markWeekAsStatus);
+// REPORTING ROUTES
+router.get('/unpaid/:weekNumber', getUnpaidStudentsByWeek);      // Unpaid list for a week
+router.get('/absentees', getAbsentStudents);                     // All absent students
+router.get('/payments/grand-total', getGrandTotalCollection);   // Total payments collected
 
-// GET: Retrieve unpaid students for a specific week (1–18)
-router.get('/unpaid/:weekNumber', getUnpaidStudentsByWeek);
-
-
-// GET: Retrieve all payment records
-router.get('/', getAllPayments);
-
-// GET: Payments for a specific student
- router.get('/:studentId', getPaymentsForStudent);
-
- // GET: Get the grand total collection of all payments
-router.get('/payments/grand-total', getGrandTotalCollection);
-
-// PUT: Mark a week's status (Absent/Omitted) for all students
-router.put('/mark-week-all/:weekNumber', markWeekAsStatusForAllStudents);
-
+// PAYMENT RECORD ROUTES
+router.post('/make/:studentId', makePayment);        // Make a payment
+router.get('/', getAllPayments);                     // All payment records
+router.get('/:studentId', getPaymentsForStudent);    // Payments for a specific student
 
 module.exports = router;

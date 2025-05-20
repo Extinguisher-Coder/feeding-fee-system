@@ -12,6 +12,8 @@ import ReportsIcon from "../../Assets/icons/reports.png";
 import LogsIcon from "../../Assets/icons/logs.png";
 import LogoutIcon from "../../Assets/icons/logout.png";
 import SettingsIcon from "../../Assets/icons/settings.png";
+import AbsentIcon from "../../Assets/icons/absent.png";
+import SummaryIcon from "../../Assets/icons/summary.png";
 
 import { FaBars, FaTimes } from "react-icons/fa";
 
@@ -89,11 +91,18 @@ const AdminDashboardLayout = () => {
             <img src={ReportsIcon} alt="Reports" className="nav-img" /> Reports
           </NavLink>
           <NavLink
+            to="/admin/summary"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={closeSidebar}
+          >
+            <img src={SummaryIcon} alt="Summary" className="nav-img" /> Weekly Summary
+          </NavLink>
+          <NavLink
             to="/admin/absenteeism"
             className={({ isActive }) => (isActive ? "active" : "")}
             onClick={closeSidebar}
           >
-            <img src={ReportsIcon} alt="Absentees" className="nav-img" /> Absenteeism
+            <img src={AbsentIcon} alt="Absentees" className="nav-img" /> Absenteeism
           </NavLink>
           <NavLink
             to="/admin/users"

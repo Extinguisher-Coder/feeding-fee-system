@@ -60,10 +60,39 @@ exports.getHistoryByWeek = async (req, res) => {
   try {
     const { startDate, endDate } = req.query;
 
+    // Validate presence of both dates
+    if (!startDate || !endDate) {
+      return res.status(400).json({ error: 'Both startDate and endDate are required.' });
+    }
+
+    // Parse dates and validate
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    if (isNaN(start.getTime()) || isNaN(end.getTime())) {
+      return res.status(400).json({ error: 'Invalid date format provided.' });
+    }
+
+    // Convert to UTC boundaries
+    const utcStart = new Date(Date.UTC(
+      start.getUTCFullYear(),
+      start.getUTCMonth(),
+      start.getUTCDate(),
+      0, 0, 0, 0
+    ));
+
+    const utcEnd = new Date(Date.UTC(
+      end.getUTCFullYear(),
+      end.getUTCMonth(),
+      end.getUTCDate(),
+      23, 59, 59, 999
+    ));
+
+    // Query history between UTC range
     const history = await historyModel.find({
       paymentDate: {
-        $gte: new Date(startDate),
-        $lte: new Date(endDate)
+        $gte: utcStart,
+        $lte: utcEnd
       }
     });
 
@@ -73,6 +102,7 @@ exports.getHistoryByWeek = async (req, res) => {
     res.status(500).json({ error: 'Server error while fetching weekly history.' });
   }
 };
+
 
 // 📌 Get history by cashier name
 exports.getHistoryByCashier = async (req, res) => {

@@ -1,0 +1,120 @@
+.absentee-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.absentee-top-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.absentee-user-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.absentee-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.absentee-btn:hover {
+  background-color: #0056b3;
+}
+
+.absentee-page-title {
+  font-size: 40px;
+  margin: 10px 0 20px;
+  text-align: center;
+  color: blue;
+}
+
+.absentee-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.absentee-controls input[type="text"] {
+  padding: 8px 12px;
+  width: 300px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.absentee-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.absentee-table th,
+.absentee-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.absentee-table th {
+  background-color: #f5f5f5;
+}
+
+.absentee-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.absentee-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.absentee-page-btn {
+  background-color: #6c757d;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.absentee-page-btn:hover {
+  background-color: #5a6268;
+}
+
+.absentee-page-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.absentee-page-info {
+  font-size: 14px;
+}
+
+.absentee-loading-bar {
+  text-align: center;
+  font-style: italic;
+  padding: 20px;
+  color: #888;
+}
+
+.absentee-form-wrapper {
+  margin: 20px auto;
+  max-width: 700px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 6px;
+}

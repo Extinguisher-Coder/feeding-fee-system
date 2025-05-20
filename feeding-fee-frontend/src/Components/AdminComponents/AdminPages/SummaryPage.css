@@ -1,0 +1,42 @@
+.summary-container {
+  padding: 24px;
+  font-family: Arial, sans-serif;
+}
+
+.summary-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.summary-term {
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.summary-loading {
+  color: #666;
+  font-style: italic;
+}
+
+.summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
+}
+
+.summary-table th,
+.summary-table td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: left;
+}
+
+.summary-table thead {
+  background-color: #f0f0f0;
+}
+
+.summary-table tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}

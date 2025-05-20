@@ -8,6 +8,7 @@ import DashboardIcon from '../../Assets/icons/dashboard.png';
 import PaymentsIcon from '../../Assets/icons/payments.png';
 import ReportsIcon from '../../Assets/icons/reports.png';
 import LogoutIcon from '../../Assets/icons/logout.png';
+import SumarIcon from '../../Assets/icons/summary.png';
 import ChangePassword from '../../Assets/icons/change-password.png';
 
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -68,6 +69,13 @@ const AccountantDashboardLayout = () => {
             onClick={closeSidebar}
           >
             <img src={ReportsIcon} alt="Reports" className="nav-img" /> Reports
+          </NavLink>
+          <NavLink
+            to="/accountant/summary"
+            className={({ isActive }) => (isActive ? 'active' : '')}
+            onClick={closeSidebar}
+          >
+            <img src={SumarIcon} alt="Reports" className="nav-img" /> Weekly Summary
           </NavLink>
 
           <NavLink

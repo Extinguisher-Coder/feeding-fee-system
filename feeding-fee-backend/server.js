@@ -9,6 +9,8 @@ const parentRoutes = require('./routes/parentRoutes');
 const authRoutes = require('./routes/authRoutes');
 const timeRoute = require('./routes/timeRoute');
 const logRoutes = require('./routes/logRoutes');
+const summaryRoutes = require('./routes/summaryRoutes');
+
 
 
 const cors = require('cors');
@@ -36,6 +38,7 @@ app.use('/api/parents', parentRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/time', timeRoute);
 app.use('/api', logRoutes);
+app.use('/api/summary', summaryRoutes);
 
 
 app.listen(PORT, () => {

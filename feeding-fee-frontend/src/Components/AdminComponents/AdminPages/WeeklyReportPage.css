@@ -144,6 +144,16 @@
 
 .yellow-cell {
   background-color: yellow;
+  color: white;
+}
+
+.brown-cell{
+background-color: brown;
+  color: white;
+}
+.blue-cell{
+background-color: blue;
+  color: white;
 }
 
 /* Hide by default */
