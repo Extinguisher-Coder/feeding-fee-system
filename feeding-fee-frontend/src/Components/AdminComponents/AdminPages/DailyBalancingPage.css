@@ -1,0 +1,109 @@
+.cash-page {
+  padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.pagetitle {
+  font-size: 32px;
+  color: orangered;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 10px 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.primary-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.secondary-btn {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.filter-row input[type="text"],
+.filter-row input[type="date"],
+.filter-row select {
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  min-width: 150px;
+}
+
+.cash-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.cash-table th,
+.cash-table td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.cash-table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.cash-table td {
+  background-color: #fff;
+}
+
+@media screen and (max-width: 768px) {
+  .pagetitle {
+    font-size: 24px;
+  }
+
+  .filter-row input[type="text"],
+  .filter-row input[type="date"],
+  .filter-row select {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .cash-table th,
+  .cash-table td {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

@@ -14,6 +14,9 @@ import LogoutIcon from "../../Assets/icons/logout.png";
 import SettingsIcon from "../../Assets/icons/settings.png";
 import AbsentIcon from "../../Assets/icons/absent.png";
 import SummaryIcon from "../../Assets/icons/summary.png";
+import BalanceIcon from "../../Assets/icons/balance.png";
+import FeedingIcon from "../../Assets/icons/feeding.png";
+import MomoIcon from "../../Assets/icons/momo.png";
 
 import { FaBars, FaTimes } from "react-icons/fa";
 
@@ -81,7 +84,23 @@ const AdminDashboardLayout = () => {
             onClick={closeSidebar}
           >
             <img src={PaymentsIcon} alt="Payments" className="nav-img" />{" "}
-            Payments
+            Cash Payments
+          </NavLink>
+          <NavLink
+            to="/admin/momo"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={closeSidebar}
+          >
+            <img src={MomoIcon} alt="MomoIcon" className="nav-img" />{" "}
+            Momo Payments
+          </NavLink>
+          <NavLink
+            to="/admin/daily-subscriber"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={closeSidebar}
+          >
+            <img src={FeedingIcon} alt="FeedingIcon" className="nav-img" />{" "}
+            Daily Subscribers
           </NavLink>
           <NavLink
             to="/admin/reports"
@@ -89,6 +108,13 @@ const AdminDashboardLayout = () => {
             onClick={closeSidebar}
           >
             <img src={ReportsIcon} alt="Reports" className="nav-img" /> Reports
+          </NavLink>
+          <NavLink
+            to="/admin/balancing"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={closeSidebar}
+          >
+            <img src={BalanceIcon} alt="BalanceIcon" className="nav-img" /> Cash Balancing
           </NavLink>
           <NavLink
             to="/admin/summary"

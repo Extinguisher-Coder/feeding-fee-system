@@ -1,0 +1,336 @@
+/* Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Base Container */
+.momo-payment-container {
+  font-family: 'Poppins', sans-serif;
+  padding: 2rem 1rem;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Top Bar */
+.momo-top-bar {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.momo-user-name {
+  font-weight: 700;
+  color: orangered;
+}
+
+.momo-time-info {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+/* Page Title */
+.momo-page-title {
+  width: 100%;
+  text-align: center;
+  font-size: 50px;
+  font-weight: 700;
+  color: rgb(214, 214, 4);
+  margin-bottom: 20px;
+}
+
+/* Top Buttons */
+.momo-top-buttons {
+  margin: 10px 0 15px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Report Button */
+.momo-report-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.momo-report-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Controls Wrapper */
+.momo-controls-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+/* Controls Section */
+.momo-payment-controls {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* Text Input */
+.momo-controls input[type="text"],
+.momo-search-input {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 2px solid orangered;
+  border-radius: 6px;
+  font-weight: 500;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.momo-search-input {
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+/* Send Payment Button */
+.momo-pay-btn {
+  background-color: rgb(214, 214, 4);
+  color: black;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.momo-pay-btn:hover {
+  background-color: orangered;
+}
+
+/* Table Styles */
+.momo-table {
+  width: 100%;
+  max-width: 1000px;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.momo-table th,
+.momo-table td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.momo-table th {
+  background-color: #f9f9f9;
+  font-weight: 700;
+  color: black;
+}
+
+.momo-table td {
+  color: #333;
+}
+
+/* Status Styles */
+.status-success {
+  color: green;
+  font-weight: 600;
+}
+
+.status-failed {
+  color: red;
+  font-weight: 600;
+}
+
+.status-pending {
+  color: orange;
+  font-weight: 600;
+}
+
+/* Loading */
+.loading-indicator {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Pagination */
+.momo-pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.momo-page-btn {
+  background-color: orangered;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.momo-page-btn:hover:not(:disabled) {
+  background-color: #cc3d00;
+}
+
+.momo-page-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.momo-page-info {
+  font-size: 1rem;
+  font-weight: 600;
+  color: black;
+  text-align: center;
+}
+
+.momo-payment-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  /* Important for scroll */
+  overflow-y: auto;
+  padding: 20px; /* to add some breathing room on small screens */
+  box-sizing: border-box;
+}
+
+.momo-payment-form-content {
+  width: 100%;
+  max-width: 700px;
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+
+  /* This limits the height so it fits viewport minus some padding */
+  max-height: calc(100vh - 40px);
+
+  /* Enable scrolling inside the form */
+  overflow-y: auto;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .momo-payment-container {
+    padding: 1rem;
+  }
+
+  .momo-top-bar {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .momo-page-title {
+    font-size: 1.8rem;
+  }
+
+  .momo-controls {
+    flex-direction: column;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 2rem;
+  }
+
+  .momo-controls input[type="text"],
+  .send-payment-btn {
+    width: 100%;
+  }
+
+  .momo-table,
+  .momo-table thead,
+  .momo-table tbody,
+  .momo-table tr,
+  .momo-table th,
+  .momo-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .momo-table tr {
+    margin-bottom: 16px;
+    background-color: white;
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .momo-table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.95rem;
+    font-weight: 500;
+    word-break: break-word;
+    flex-wrap: wrap;
+  }
+
+  .momo-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: #555;
+    flex: 1;
+    padding-right: 10px;
+  }
+
+  .momo-table th {
+    display: none;
+  }
+
+  .momo-pagination {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .momo-controls-wrapper {
+    min-height: auto;
+    padding-top: 2rem;
+  }
+}

@@ -1,0 +1,165 @@
+.momo-form-container {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.momo-form {
+  background-color: white;
+  border-radius: 12px;
+  padding: 25px 30px;
+  max-width: 650px;
+  width: 100%;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  font-family: 'Segoe UI', sans-serif;
+  color: black;
+  box-sizing: border-box;
+}
+
+.momo-form h2 {
+  color: orangered;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.momo-grid-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.momo-form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.momo-form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+  width: 100%;
+  text-align: left;
+}
+
+.momo-form-group input,
+.momo-form-group select {
+  padding: 9px 10px;
+  border: 2px solid yellowgreen;
+  border-radius: 6px;
+  font-size: 15px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.momo-full-width {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.momo-full-width input {
+  width: 100%;
+}
+
+.momo-form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.momo-btn-save,
+.momo-btn-cancel {
+  flex: 1;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.momo-btn-save {
+  background-color: yellowgreen;
+}
+
+.momo-btn-cancel {
+  background-color: orangered;
+}
+
+.momo-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === MOBILE & SMALL DEVICES RESPONSIVE ENHANCEMENTS === */
+@media (max-width: 768px) {
+  .momo-form-container {
+    padding: 20px 10px;
+  }
+
+  .momo-form {
+    padding: 20px 16px;
+    max-width: 95%;
+    text-align: center;
+  }
+
+  .momo-grid-form {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .momo-form-group {
+    align-items: center;
+    width: 100%;
+  }
+
+  .momo-form-group label {
+    text-align: center;
+  }
+
+  .momo-form-group input,
+  .momo-form-group select {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .momo-form-actions {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .momo-btn-save,
+  .momo-btn-cancel {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .momo-form h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+}

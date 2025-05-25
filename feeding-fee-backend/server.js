@@ -10,6 +10,10 @@ const authRoutes = require('./routes/authRoutes');
 const timeRoute = require('./routes/timeRoute');
 const logRoutes = require('./routes/logRoutes');
 const summaryRoutes = require('./routes/summaryRoutes');
+const cashReconciliationRoutes = require('./routes/cashReconciliationRoutes');
+const balanceHistoryRoutes = require('./routes/balanceHistoryRoutes');
+const dailySubscriberRoutes = require('./routes/dailySubscriberRoutes');
+
 
 
 
@@ -39,6 +43,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/time', timeRoute);
 app.use('/api', logRoutes);
 app.use('/api/summary', summaryRoutes);
+app.use('/api/cash-reconciliation', cashReconciliationRoutes);
+app.use('/api/balance-history', balanceHistoryRoutes);
+app.use('/api/daily-subscribers', dailySubscriberRoutes);
 
 
 app.listen(PORT, () => {

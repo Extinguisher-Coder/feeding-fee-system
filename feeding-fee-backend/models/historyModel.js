@@ -32,7 +32,12 @@ const historySchema = new mongoose.Schema({
   cashier: {
     type: String,
     required: true
+  },
+  reference: {
+    type: String,
+    default: 'Cash'  // Default if none is provided
   }
+ 
 });
 
 const historyModel = mongoose.model('History', historySchema);

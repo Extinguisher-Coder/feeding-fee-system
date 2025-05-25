@@ -7,7 +7,7 @@ const distributeWeeks = require('../utils/distributeWeeks'); // ✅ Import helpe
 // 📌 MAKE PAYMENT
 const makePayment = async (req, res) => {
   try {
-    const { amount, termName, cashier } = req.body;
+    const { amount, termName, cashier, reference } = req.body;
     const studentId = req.params.studentId;
 
     if (!amount || !termName || !cashier) {
@@ -52,6 +52,7 @@ const makePayment = async (req, res) => {
       amountPaid: amount,
       termName,
       cashier,
+      reference,
     });
     await historyRecord.save();
 

@@ -37,11 +37,6 @@
   min-width: unset;
 }
 
-@media (min-width: 769px) {
-  .report-table {
-    min-width: 1200px;
-  }
-}
 
 .report-table th,
 .report-table td {
@@ -144,7 +139,7 @@
 
 .yellow-cell {
   background-color: yellow;
-  color: white;
+  color: black;
 }
 
 .brown-cell{

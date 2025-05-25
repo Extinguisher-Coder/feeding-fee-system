@@ -1,0 +1,190 @@
+/* CashBalancingPage.css */
+
+.cash-page {
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.pagetitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #1a202c;
+}
+
+.action-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.primary-btn {
+  background-color: #2563eb;
+  color: #fff;
+}
+
+.primary-btn:hover {
+  background-color: #1d4ed8;
+}
+
+.secondary-btn {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
+
+.secondary-btn:hover {
+  background-color: #d1d5db;
+}
+
+.filter-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.filter-row select {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.status-line {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.status-line.balanced {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #34d399;
+}
+
+.status-line.unbalanced {
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #f87171;
+}
+
+.cash-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.cash-table thead {
+  background-color: #1f2937;
+  color: black;
+}
+
+.cash-table th,
+.cash-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cash-table tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+.status-balanced {
+  color: green;
+  font-weight: 600;
+}
+
+.status-unbalanced {
+  color: red;
+  font-weight: 600;
+}
+
+.status-over {
+  color: yellow;
+  font-weight: 600;
+}
+
+.diff-balanced {
+  background-color: #dcfce7;
+  color: #065f46;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.diff-unbalanced {
+  background-color: #fee2e2;
+  color: #991b1b;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.diff-over {
+  background-color: #fef3c7;
+  color: #92400e;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.grand-total-row {
+  background-color: #f3f4f6;
+  font-weight: bold;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.95rem;
+}
+
+.pagination button {
+  padding: 0.3rem 0.8rem;
+  font-weight: 600;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
+@media screen and (max-width: 768px) {
+  .action-row,
+  .filter-row {
+    flex-direction: column;
+  }
+
+  .cash-table th,
+  .cash-table td {
+    font-size: 0.85rem;
+  }
+
+  .pagination {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

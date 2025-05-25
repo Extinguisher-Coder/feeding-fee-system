@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './AdminPaymentPage.css';
-import MakePaymentForm from './MakePaymentForm';
+import './MomoPaymentPage.css';
+import MakeMomoPaymentForm from './MakeMomoPaymentForm';
 import API_BASE_URL from '../../../config';
 
-const AdminPaymentPage = () => {
+const MomoPaymentPage = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
@@ -61,16 +61,17 @@ const AdminPaymentPage = () => {
   const totalPages = Math.ceil(filteredStudents.length / studentsPerPage);
 
   return (
-    <div className="admin-payment-container">
-      <div className="top-bar">
-        <span className="user-name">Cashier: {currentUser?.fullName || 'N/A'}</span>
+    <div className="momo-payment-container">
+      <div className="momo-top-bar">
+        <span className="momo-user-name">Cashier: {currentUser?.fullName || 'N/A'}</span>
       </div>
 
-      <h2 className="page-title">Payment Page</h2>
+      <h2 className="momo-page-title">Momo Payment Page</h2>
 
-      <div className="payment-controls">
+       <div className="momo-payment-controls">
         <input
           type="text"
+          className="momo-search-input"
           placeholder="Search by name or student ID"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -78,9 +79,9 @@ const AdminPaymentPage = () => {
       </div>
 
       {showPaymentForm && selectedStudent && (
-        <div className="payment-form-overlay">
-          <div className="payment-form-content">
-            <MakePaymentForm
+        <div className="momo-payment-form-overlay">
+          <div className="momo-payment-form-content">
+            <MakeMomoPaymentForm
               student={selectedStudent}
               cashier={currentUser?.fullName || 'Unknown'}
               onClose={handleCloseForm}
@@ -90,10 +91,10 @@ const AdminPaymentPage = () => {
       )}
 
       {loading ? (
-        <div className="loading-bar">Loading students...</div>
+        <div className="momo-loading-bar">Loading students...</div>
       ) : (
         <>
-          <table className="students-table">
+          <table className="momo-students-table">
             <thead>
               <tr>
                 <th>Student ID</th>
@@ -109,8 +110,8 @@ const AdminPaymentPage = () => {
                   <td data-label="Full Name">{student.firstName} {student.lastName}</td>
                   <td data-label="Class">{student.classLevel}</td>
                   <td data-label="Actions">
-                    <button className="pay-btn" onClick={() => handleMakePayment(student)}>
-                      Make Payment
+                    <button className="momo-pay-btn" onClick={() => handleMakePayment(student)}>
+                      Make Momo Payment
                     </button>
                   </td>
                 </tr>
@@ -118,21 +119,21 @@ const AdminPaymentPage = () => {
             </tbody>
           </table>
 
-          <div className="pagination">
+          <div className="momo-pagination">
             <button
-              className="page-btn"
+              className="momo-page-btn"
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             >
               Previous
             </button>
 
-            <span className="page-info">
+            <span className="momo-page-info">
               Page {currentPage} of {totalPages}
             </span>
 
             <button
-              className="page-btn"
+              className="momo-page-btn"
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             >
@@ -145,4 +146,4 @@ const AdminPaymentPage = () => {
   );
 };
 
-export default AdminPaymentPage;
+export default MomoPaymentPage;

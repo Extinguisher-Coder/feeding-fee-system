@@ -32,7 +32,7 @@ const paymentSchema = new mongoose.Schema({
   },
   termName: {
     type: String,
-    default: ''
+    default: 'Term 3 2025'
   },
   cashier: {
     type: String,

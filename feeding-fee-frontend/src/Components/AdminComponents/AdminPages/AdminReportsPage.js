@@ -11,6 +11,7 @@ const AdminReportsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCashier, setSelectedCashier] = useState('All');
   const [selectedClass, setSelectedClass] = useState('All');
+  const [selectedPaymentType, setSelectedPaymentType] = useState('All');
   const [selectedDate, setSelectedDate] = useState('');
   const [loading, setLoading] = useState(true);
   const [historyData, setHistoryData] = useState([]);
@@ -59,6 +60,10 @@ const AdminReportsPage = () => {
       PaymentDate: new Date(item.paymentDate).toLocaleDateString('en-US', {
         year: 'numeric', month: 'short', day: 'numeric'
       }),
+
+       Reference: item.reference,
+
+
     }));
     const worksheet = XLSX.utils.json_to_sheet(exportData);
     const workbook = XLSX.utils.book_new();
@@ -79,7 +84,18 @@ const AdminReportsPage = () => {
     const matchesClass = selectedClass === 'All' || item.classLevel === selectedClass;
     const matchesDate = !selectedDate || new Date(item.paymentDate).toDateString() === new Date(selectedDate).toDateString();
 
-    return matchesSearch && matchesCashier && matchesClass && matchesDate;
+    const isCash = !item.reference || item.reference.trim().toLowerCase() === 'cash';
+const isMomo = item.reference && item.reference.trim().toLowerCase() !== 'cash';
+
+const matchesPaymentType =
+  selectedPaymentType === 'All' ||
+  (selectedPaymentType === 'Cash' && isCash) ||
+  (selectedPaymentType === 'Momo' && isMomo);
+
+return matchesSearch && matchesCashier && matchesClass && matchesDate && matchesPaymentType;
+
+
+
   });
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -102,8 +118,45 @@ const AdminReportsPage = () => {
         </header>
 
         <div className="admin-reports__buttons">
-          <button onClick={() => navigate('/admin/reports/today')} className="admin-reports__btn admin-reports__btn--daily">Today's Report</button>
-          <button onClick={() => navigate('/admin/reports/weekly')} className="admin-reports__btn admin-reports__btn--weekly">Weekly Report</button>
+                
+           <button className="admin-reports__btn admin-reports__btn--daily" onClick={() => {
+    const { role } = JSON.parse(localStorage.getItem('user'));
+    const routeMap = {
+      Admin: '/admin/reports/today',
+      Cashier: '/cashier/reports/today',
+      Accountant: '/accountant/reports/today',
+    };
+    navigate(routeMap[role] || '/unauthorized');
+  }}>
+    Today's Report
+  </button>
+
+<button className="admin-reports__btn admin-reports__btn--weekly" onClick={() => {
+    const { role } = JSON.parse(localStorage.getItem('user'));
+    const routeMap = {
+      Admin: '/admin/reports/weekly',
+      Cashier: '/cashier/reports/weekly',
+      Accountant: '/accountant/reports/weekly',
+    };
+    navigate(routeMap[role] || '/unauthorized');
+  }}>
+    Weekly Report
+  </button>
+
+  
+
+  <button className="admin-reports__btn admin-reports__btn--weekly" onClick={() => {
+    const { role } = JSON.parse(localStorage.getItem('user'));
+    const routeMap = {
+      Admin: '/admin/unpaid',
+      Cashier: '/cashier/unpaid',
+      Accountant: '/accountant/unpaid',
+    };
+    navigate(routeMap[role] || '/unauthorized');
+  }}>
+    Unpaid Students
+  </button>
+
           <button onClick={handlePrint} className="admin-reports__btn admin-reports__btn--print">Print Report</button>
           <button onClick={handleExport} className="admin-reports__btn admin-reports__btn--export">Export to Excel</button>
         </div>
@@ -131,6 +184,19 @@ const AdminReportsPage = () => {
               <option key={idx} value={cls}>{cls}</option>
             ))}
           </select>
+
+          <select
+                value={selectedPaymentType}
+                onChange={(e) => setSelectedPaymentType(e.target.value)}
+                className="admin-reports__dropdown"
+                 >
+                <option value="All">All Types</option>
+                <option value="Cash">Cash</option>
+                <option value="Momo">Momo</option>
+              </select>
+
+
+
 
           <input
             type="date"
@@ -164,6 +230,7 @@ const AdminReportsPage = () => {
                   <th>Amount Paid</th>
                   <th>Cashier</th>
                   <th>Payment Date</th>
+                  <th>Reference</th>
                 </tr>
               </thead>
               <tbody>
@@ -175,11 +242,17 @@ const AdminReportsPage = () => {
                     <td>{item.classLevel}</td>
                     <td>GHS {item.amountPaid}</td>
                     <td>{item.cashier}</td>
-                    <td>{new Date(item.paymentDate).toLocaleDateString('en-US', {
+                    <td>{new Date(item.paymentDate).toLocaleString('en-US', {
                       year: 'numeric',
                       month: 'short',
-                      day: 'numeric'
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                      hour12: true
                     })}</td>
+
+                    <td>{item.reference}</td>
+
                   </tr>
                 ))}
               </tbody>

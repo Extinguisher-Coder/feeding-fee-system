@@ -34,6 +34,7 @@ const AdminDashboardPage = () => {
   const [numberOfWeeks, setNumberOfWeeks] = useState(0);
   const [expectedCollection, setExpectedCollection] = useState(0);
   const [grandTotalCollection, setGrandTotalCollection] = useState(0);
+  const [dailySubscriptionTotal, setDailySubscriptionTotal] = useState(0);
   const [chartData, setChartData] = useState(null);
   const [user, setUser] = useState({ fullName: 'User', role: 'Staff' });
 
@@ -68,6 +69,8 @@ const AdminDashboardPage = () => {
     fetchTodaysCollection();
     fetchTotalUsers();
     fetchGrandTotalCollection();
+    fetchDailySubscriptionTotal();
+
   }, []);
 
   useEffect(() => {
@@ -140,6 +143,16 @@ const AdminDashboardPage = () => {
       console.error('Error fetching today\'s collection:', error);
     }
   };
+
+  const fetchDailySubscriptionTotal = async () => {
+  try {
+    const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/daily-subscribers/total`);
+    setDailySubscriptionTotal(res.data.totalAmount || 0);
+  } catch (error) {
+    console.error('Error fetching daily subscription total:', error);
+  }
+};
+
 
   const fetchGrandTotalCollection = async () => {
     try {
@@ -242,6 +255,12 @@ const AdminDashboardPage = () => {
               <p>Today's Total Collection</p>
               <h2>GHS: {todaysCollection}</h2>
             </div>
+
+                <div className="dash-card">
+                <p>Daily Subscription Total Collection</p>
+                <h2>GHS: {dailySubscriptionTotal}</h2>
+              </div>
+
 
             <div className="dash-card">
               <p>Total Users</p>

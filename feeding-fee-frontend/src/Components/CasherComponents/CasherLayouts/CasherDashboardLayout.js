@@ -9,6 +9,7 @@ import PaymentsIcon from '../../Assets/icons/payments.png';
 import ReportsIcon from '../../Assets/icons/reports.png';
 import LogoutIcon from '../../Assets/icons/logout.png';
 import ChangePassword from '../../Assets/icons/change-password.png';
+import FeedingIcon from '../../Assets/icons/feeding.png';
 
 import { FaBars, FaTimes } from "react-icons/fa";
 
@@ -59,7 +60,15 @@ const CasherDashboardLayout = () => {
             className={({ isActive }) => (isActive ? 'active' : '')}
             onClick={closeSidebar}
           >
-            <img src={PaymentsIcon} alt="Payments" className="nav-img" /> Payments
+            <img src={PaymentsIcon} alt="Payments" className="nav-img" /> Cash Payments
+          </NavLink>
+
+          <NavLink
+            to="/cashier/daily-subscriber"
+            className={({ isActive }) => (isActive ? 'active' : '')}
+            onClick={closeSidebar}
+          >
+            <img src={FeedingIcon} alt="FeedingIcon" className="nav-img" /> Daily Subscribers
           </NavLink>
 
           <NavLink

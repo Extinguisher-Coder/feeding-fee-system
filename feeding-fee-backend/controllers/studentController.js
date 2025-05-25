@@ -42,7 +42,7 @@ const registerStudent = async (req, res) => {
       lastAmountPaid: 0,
       totalAmountPaid: 0,
       lastPaymentDate: new Date(),
-      termName: '', // You can set a default or fetch the current term
+      termName: 'Term 3 2025', // Set a default or fetch the current term
       cashier: req.user?.name || 'Admin', // fallback if no logged-in user
     });
 

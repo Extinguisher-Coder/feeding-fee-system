@@ -19,6 +19,7 @@ const TodayReportPage = () => {
   const [cashiers, setCashiers] = useState([]);
   const [selectedCashier, setSelectedCashier] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
+  const [selectedPaymentType, setSelectedPaymentType] = useState("all"); // New state for payment type
   const [currentPage, setCurrentPage] = useState(1);
   const [isPrinting, setIsPrinting] = useState(false);
 
@@ -82,9 +83,17 @@ const TodayReportPage = () => {
       filtered = filtered.filter(payment => payment.classLevel === selectedClass);
     }
 
+    // New Payment Type Filter
+    if (selectedPaymentType === "cash") {
+      filtered = filtered.filter(payment => payment.reference === "Cash");
+    } else if (selectedPaymentType === "momo") {
+      filtered = filtered.filter(payment => payment.reference && payment.reference !== "Cash");
+    }
+    // "all" shows everything - no filter
+
     setFilteredPayments(filtered);
     setCurrentPage(1);
-  }, [searchTerm, selectedCashier, selectedClass, todayPayments]);
+  }, [searchTerm, selectedCashier, selectedClass, selectedPaymentType, todayPayments]);
 
   const indexOfLast = currentPage * paymentsPerPage;
   const indexOfFirst = indexOfLast - paymentsPerPage;
@@ -121,6 +130,7 @@ const TodayReportPage = () => {
         year: "numeric",
       }),
       Cashier: p.cashier,
+      Reference: p.reference,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -185,6 +195,17 @@ const TodayReportPage = () => {
                   </option>
                 ))}
               </select>
+
+              {/* New Payment Type Dropdown */}
+              <select
+                className="tdr-dropdown"
+                value={selectedPaymentType}
+                onChange={(e) => setSelectedPaymentType(e.target.value)}
+              >
+                <option value="all">All Payment Types</option>
+                <option value="cash">Cash</option>
+                <option value="momo">Momo</option>
+              </select>
             </>
           )}
         </div>
@@ -209,6 +230,7 @@ const TodayReportPage = () => {
                 <th>Amount Paid</th>
                 <th>Payment Date</th>
                 <th>Cashier</th>
+                <th>Reference</th>
               </tr>
             </thead>
             <tbody>
@@ -221,17 +243,22 @@ const TodayReportPage = () => {
                     <td>{payment.classLevel}</td>
                     <td>GHS {payment.amountPaid}</td>
                     <td>
-                      {new Date(payment.paymentDate).toLocaleDateString(
-                        "en-US",
-                        { month: "short", day: "2-digit", year: "numeric" }
-                      )}
+                      {new Date(payment.paymentDate).toLocaleString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
                     </td>
                     <td>{payment.cashier}</td>
+                    <td>{payment.reference}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7">No payments found</td>
+                  <td colSpan="8">No payments found</td>
                 </tr>
               )}
             </tbody>
