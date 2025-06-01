@@ -182,6 +182,22 @@ body {
   display: none;
 }
 
+
+.amount-green {
+  
+  color: green;
+  font-weight: bold;
+}
+
+.amount-yellow {
+
+  color: blue;
+  font-weight: bold;
+}
+
+
+
+
 /* Hide the logo and title */
 .school-logo,
 .school-name,

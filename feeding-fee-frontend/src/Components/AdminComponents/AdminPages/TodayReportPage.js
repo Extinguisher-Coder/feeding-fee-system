@@ -241,7 +241,14 @@ const TodayReportPage = () => {
                     <td>{payment.studentId}</td>
                     <td>{`${payment.firstName} ${payment.lastName}`}</td>
                     <td>{payment.classLevel}</td>
-                    <td>GHS {payment.amountPaid}</td>
+                    <td
+                      className={
+                        payment.amountPaid % 50 === 0 ? "amount-green" : "amount-yellow"
+                      }
+                    >
+                      GHS {payment.amountPaid}
+                    </td>
+
                     <td>
                       {new Date(payment.paymentDate).toLocaleString("en-GB", {
                         day: "2-digit",

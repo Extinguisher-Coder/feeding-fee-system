@@ -240,7 +240,10 @@ return matchesSearch && matchesCashier && matchesClass && matchesDate && matches
                     <td>{item.studentId}</td>
                     <td>{item.firstName} {item.lastName}</td>
                     <td>{item.classLevel}</td>
-                    <td>GHS {item.amountPaid}</td>
+                    <td className={item.amountPaid % 50 === 0 ? 'amount-green' : 'amount-yellow'}>
+                            GHS {item.amountPaid}
+                    </td>
+
                     <td>{item.cashier}</td>
                     <td>{new Date(item.paymentDate).toLocaleString('en-US', {
                       year: 'numeric',

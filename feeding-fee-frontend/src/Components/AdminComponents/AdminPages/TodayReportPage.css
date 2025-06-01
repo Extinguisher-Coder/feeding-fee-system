@@ -131,6 +131,17 @@
   margin-top: 1.5rem;
 }
 
+.amount-green {
+  color: green;
+  font-weight: bold;
+}
+
+.amount-yellow {
+color: blue;
+  font-weight: bold;
+}
+
+
 /* Hide for screen only */
 .tdr-school-logo,
 .tdr-school-name,
