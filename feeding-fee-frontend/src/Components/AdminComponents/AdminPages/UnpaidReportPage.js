@@ -11,6 +11,7 @@ const classOptions = [
 ];
 
 const UnpaidReportPage = () => {
+  const [currentUser, setCurrentUser] = useState(null);
   const [terms, setTerms] = useState([]);
   const [selectedTerm, setSelectedTerm] = useState(null);
   const [selectedWeek, setSelectedWeek] = useState(1);
@@ -18,8 +19,14 @@ const UnpaidReportPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [isPrinting, setIsPrinting] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setCurrentUser(JSON.parse(storedUser));
+    }
+
     const fetchTerms = async () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/terms`);
@@ -40,9 +47,7 @@ const UnpaidReportPage = () => {
     const fetchUnpaid = async () => {
       try {
         const response = await fetch(
-          `${process.env.REACT_APP_BACKEND_API_URL}/payments/unpaid/${selectedWeek}?termName=${encodeURIComponent(
-            selectedTerm.termName
-          )}`
+          `${process.env.REACT_APP_BACKEND_API_URL}/payments/unpaid/${selectedWeek}?termName=${encodeURIComponent(selectedTerm.termName)}`
         );
         const data = await response.json();
         setUnpaidData(Array.isArray(data) ? data : []);
@@ -89,7 +94,45 @@ const UnpaidReportPage = () => {
     XLSX.writeFile(workbook, "Unpaid_Report.xlsx");
   };
 
+  const handleSendReminders = async () => {
+    if (filteredData.length === 0) {
+      alert("No students to send reminders to.");
+      return;
+    }
+
+    const confirmSend = window.confirm(
+      `Are you sure you want to send SMS reminders to ${filteredData.length} unpaid students?`
+    );
+
+    if (!confirmSend) return;
+
+    try {
+      setIsSending(true);
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_API_URL}/reminders/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ students: filteredData }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        alert(`Reminders sent successfully to ${result.successCount || filteredData.length} students.`);
+      } else {
+        alert(`Failed to send reminders: ${result.message || "Unknown error"}`);
+      }
+    } catch (error) {
+      console.error("Error sending SMS reminders:", error);
+      alert("Failed to send reminders due to a network error.");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   const numberOfWeeks = selectedTerm?.numberOfWeeks || 18;
+
+  const isAdmin = currentUser?.role === "Admin";
 
   return (
     <div className={`unpaid-wrapper ${isPrinting ? "printing-mode" : ""}`}>
@@ -132,6 +175,18 @@ const UnpaidReportPage = () => {
               </option>
             ))}
           </select>
+
+          <button
+            className="btn reminder-btn"
+            onClick={handleSendReminders}
+            disabled={!isAdmin || isSending}
+          >
+            {isSending
+              ? "Sending..."
+              : !isAdmin
+              ? "You are not permitted to send reminder"
+              : "Send Reminder Message"}
+          </button>
 
           <select
             className="class-dropdown"

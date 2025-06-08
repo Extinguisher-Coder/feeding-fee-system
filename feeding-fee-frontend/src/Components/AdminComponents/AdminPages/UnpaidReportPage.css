@@ -41,8 +41,9 @@
   
   .btn {
     padding: 12px 20px;
-    background-color: #ff4f00;
+    background-color: blue;
     color: white;
+    width: 50%;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -88,6 +89,12 @@
     justify-content: center;
     gap: 1rem;
     margin-top: 1.5rem;
+  }
+
+  .report-controls no-print btn reminder-btn{
+    width: 90px;
+    background-color: blue;
+
   }
   
   /* Default hidden print elements */

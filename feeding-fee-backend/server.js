@@ -13,6 +13,7 @@ const summaryRoutes = require('./routes/summaryRoutes');
 const cashReconciliationRoutes = require('./routes/cashReconciliationRoutes');
 const balanceHistoryRoutes = require('./routes/balanceHistoryRoutes');
 const dailySubscriberRoutes = require('./routes/dailySubscriberRoutes');
+const reminderRoutes = require('./routes/reminderRoutes');
 
 
 
@@ -46,6 +47,7 @@ app.use('/api/summary', summaryRoutes);
 app.use('/api/cash-reconciliation', cashReconciliationRoutes);
 app.use('/api/balance-history', balanceHistoryRoutes);
 app.use('/api/daily-subscribers', dailySubscriberRoutes);
+app.use('/api/reminders', reminderRoutes);
 
 
 app.listen(PORT, () => {

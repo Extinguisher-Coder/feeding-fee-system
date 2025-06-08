@@ -1,3 +1,4 @@
+const axios = require('axios');
 const Payment = require('../models/paymentModel');
 const Student = require('../models/studentModel');
 const Term = require('../models/termModel');
@@ -5,6 +6,7 @@ const History = require('../models/historyModel');
 const distributeWeeks = require('../utils/distributeWeeks'); // ✅ Import helper
 
 // 📌 MAKE PAYMENT
+
 const makePayment = async (req, res) => {
   try {
     const { amount, termName, cashier, reference } = req.body;
@@ -24,17 +26,14 @@ const makePayment = async (req, res) => {
       return res.status(400).json({ error: 'Invalid term name' });
     }
 
-    // Update basic payment info
+    // Update payment
     payment.lastAmountPaid = amount;
     payment.totalAmountPaid += amount;
     payment.lastPaymentDate = new Date();
     payment.termName = termName;
     payment.cashier = cashier;
 
-    // Pass the existing payment document to distributeWeeks to skip 'Absent'/'Omitted'
     const weekDistribution = distributeWeeks(payment.totalAmountPaid, payment);
-
-    // Assign distributed values back, preserving "Absent"/"Omitted" weeks
     for (let i = 1; i <= 18; i++) {
       const weekKey = `Week${i}`;
       payment[weekKey] = weekDistribution[weekKey];
@@ -42,7 +41,7 @@ const makePayment = async (req, res) => {
 
     await payment.save();
 
-    // Log to history as before
+    // Save to history
     const historyRecord = new History({
       paymentDate: new Date(),
       studentId: payment.studentId,
@@ -56,12 +55,62 @@ const makePayment = async (req, res) => {
     });
     await historyRecord.save();
 
+    // Fetch student data and send SMS
+    const student = await Student.findOne({ studentId });
+    if (student?.guardianContact) {
+
+       const dateObj = new Date(payment.lastPaymentDate);
+        const formattedDate = dateObj.toLocaleDateString('en-US', {
+                month: 'short',    // Apr
+                day: 'numeric',    // 20
+                year: 'numeric'    // 2025
+              });
+
+              const formattedTime = dateObj.toLocaleTimeString('en-US', {
+                      hour: 'numeric',
+                      minute: '2-digit',
+                      hour12: true       // AM/PM format
+                    });
+      
+                    const messageText = `Dear Parent/Guardian,
+Feeding Fee Payment of GHS ${amount} for ${student.firstName} ${student.lastName} (${student.classLevel}) has been received successfully on ${formattedDate} at ${formattedTime}. For any concerns, call: 0242382484. Thank you.`;
+
+      const host = 'api.smsonlinegh.com';
+      const endPoint = `https://${host}/v5/message/sms/send`;
+
+      const smsPayload = {
+        text: messageText,
+        type: 0,
+        sender: process.env.SMS_SENDER, 
+        destinations: [student.guardianContact]
+      };
+
+      const smsResponse = await axios.request({
+        method: 'POST',
+        url: endPoint,
+        data: smsPayload,
+        headers: {
+          'Host': host,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `key ${process.env.SMS_API_KEY}`
+        }
+      });
+
+      if (smsResponse.status === 200) {
+        console.log('SMS Sent:', smsResponse.data.data);
+      } else {
+        console.warn('SMS send failed with status:', smsResponse.status);
+      }
+    }
+
     res.status(200).json({
-      message: 'Payment successfully processed and history recorded.',
+      message: 'Payment processed, history recorded, and SMS sent.',
       payment,
     });
+
   } catch (err) {
-    console.error(err);
+    console.error('Payment error:', err);
     res.status(500).json({ error: 'Payment failed', details: err.message });
   }
 };
