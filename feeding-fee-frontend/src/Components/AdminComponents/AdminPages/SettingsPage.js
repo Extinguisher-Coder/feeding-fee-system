@@ -9,9 +9,11 @@ const SettingsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddTermForm, setShowAddTermForm] = useState(false);
   const [editTerm, setEditTerm] = useState(null);
+  const [restriction, setRestriction] = useState('allow'); // 'allow' or 'restrict'
 
   useEffect(() => {
     fetchTerms();
+    fetchRestriction();
   }, []);
 
   useEffect(() => {
@@ -28,6 +30,24 @@ const SettingsPage = () => {
       setTerms(response.data);
     } catch (error) {
       console.error("Error fetching terms:", error);
+    }
+  };
+
+  const fetchRestriction = async () => {
+    try {
+      const res = await axios.get(`${process.env.REACT_APP_BACKEND_API_URL}/settings/payment-restriction`);
+      setRestriction(res.data.restriction );
+    } catch (error) {
+      console.error("Error fetching restriction setting:", error);
+    }
+  };
+
+  const updateRestriction = async (value) => {
+    try {
+      await axios.put(`${process.env.REACT_APP_BACKEND_API_URL}/settings/payment-restriction`, { value });
+      setRestriction(value);
+    } catch (error) {
+      console.error("Failed to update restriction:", error);
     }
   };
 
@@ -106,10 +126,35 @@ const SettingsPage = () => {
     <div className="settings-page-container">
       <h1 className="page-title">Settings - Manage Terms</h1>
 
+      {/* 🔘 Partial Payment Restriction Radios */}
+      {/* 🔘 Partial Payment Restriction Radios */}
+<div className="restriction-options">
+  <label>
+    <input
+      type="radio"
+      name="restriction"
+      value="restrict"
+      checked={restriction === 'restrict'}
+      onChange={() => updateRestriction('restrict')}
+    />
+    Restrict Partial Payment for this Week
+  </label>
+  <label style={{ marginLeft: '20px' }}>
+    <input
+      type="radio"
+      name="restriction"
+      value="allow"
+      checked={restriction === 'allow'}
+      onChange={() => updateRestriction('allow')}
+    />
+    Allow Partial Payment for this Week
+  </label>
+</div>
+
+
       <div className="top-controls">
         <button className="add-term-btn" onClick={handleAddTermClick}>Add New Term</button>
 
-        {/* ✅ Upload Students Button */}
         <label className="upload-students-btn">
           Upload Students
           <input type="file" accept=".csv" onChange={handleStudentFileUpload} hidden />

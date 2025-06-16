@@ -6,6 +6,8 @@ import API_BASE_URL from '../../../config';
 const MakePaymentForm = ({ student, cashier, onClose }) => {
   const [currentTerm, setCurrentTerm] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
+  const [paymentRestriction, setPaymentRestriction] = useState('');
+  const [amountError, setAmountError] = useState('');
   const [form, setForm] = useState({
     studentId: student.studentId,
     firstName: student.firstName,
@@ -20,30 +22,70 @@ const MakePaymentForm = ({ student, cashier, onClose }) => {
     const fetchCurrentTerm = async () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/terms/current`);
-        if (res.data && res.data.termName) {
+        if (res.data?.termName) {
           setCurrentTerm(res.data);
           setForm(prevForm => ({
             ...prevForm,
             termName: res.data.termName
           }));
-        } else {
-          setCurrentTerm(null);
         }
       } catch (error) {
         console.error('Failed to fetch current term:', error);
-        setCurrentTerm(null);
       }
     };
 
     fetchCurrentTerm();
   }, []);
 
+  useEffect(() => {
+    const fetchRestriction = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/settings/payment-restriction`);
+        if (res.data?.restriction) {
+          setPaymentRestriction(res.data.restriction);
+        }
+      } catch (error) {
+        console.error('Error fetching restriction setting:', error);
+      }
+    };
+
+    fetchRestriction();
+  }, []);
+
   const handleChange = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === 'amount') {
+      setForm(prev => ({ ...prev, amount: value }));
+
+      const numeric = parseFloat(value);
+      if (!value || isNaN(numeric)) {
+        setAmountError('');
+      } else if (paymentRestriction === 'restrict' && numeric % 50 !== 0) {
+        setAmountError('❌ Invalid amount. Please contact Madam Sharin.');
+      } else {
+        setAmountError('');
+      }
+
+      return;
+    }
+
+    setForm(prevForm => ({ ...prevForm, [name]: value }));
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
+
+    if (!currentTerm || !paymentRestriction) {
+      alert('❌ Cannot save payment — term or payment restriction not set.');
+      return;
+    }
+
+    if (paymentRestriction === 'restrict' && parseFloat(form.amount) % 50 !== 0) {
+      setAmountError('❌ Invalid amount. Please contact Madam Sharin.');
+      return;
+    }
+
     setIsSaving(true);
 
     try {
@@ -61,50 +103,25 @@ const MakePaymentForm = ({ student, cashier, onClose }) => {
     }
   };
 
+  const isAmountDisabled = !currentTerm || !paymentRestriction || isSaving;
+
   return (
     <div className="payment-form-container">
       <form className="payment-form" onSubmit={handleSubmit}>
         <h2>Make Payment</h2>
 
         <div className="grid-form">
-          <div className="form-group">
-            <label>Student ID</label>
-            <input type="text" value={form.studentId} disabled />
-          </div>
-
-          <div className="form-group">
-            <label>First Name</label>
-            <input type="text" value={form.firstName} disabled />
-          </div>
-
-          <div className="form-group">
-            <label>Last Name</label>
-            <input type="text" value={form.lastName} disabled />
-          </div>
-
-          <div className="form-group">
-            <label>Class</label>
-            <input type="text" value={form.classLevel} disabled />
-          </div>
-
-          <div className="form-group">
-            <label>Cashier</label>
-            <input type="text" value={form.cashier} disabled />
-          </div>
-
-          <div className="form-group">
-            <label>Term</label>
-            <input
-              type="text"
-              value={currentTerm ? form.termName : "No active term"}
-              disabled
-            />
-          </div>
+          <div className="form-group"><label>Student ID</label><input type="text" value={form.studentId} disabled /></div>
+          <div className="form-group"><label>First Name</label><input type="text" value={form.firstName} disabled /></div>
+          <div className="form-group"><label>Last Name</label><input type="text" value={form.lastName} disabled /></div>
+          <div className="form-group"><label>Class</label><input type="text" value={form.classLevel} disabled /></div>
+          <div className="form-group"><label>Cashier</label><input type="text" value={form.cashier} disabled /></div>
+          <div className="form-group"><label>Term</label><input type="text" value={currentTerm ? form.termName : "No active term"} disabled /></div>
         </div>
 
-        {!currentTerm && (
+        {(!currentTerm || !paymentRestriction) && (
           <p style={{ color: 'red', marginTop: '10px' }}>
-            ⚠️ A current term must be set before payments can be accepted.
+            ⚠️ A current term and payment restriction must be set before payments can be accepted.
           </p>
         )}
 
@@ -117,20 +134,21 @@ const MakePaymentForm = ({ student, cashier, onClose }) => {
             onChange={handleChange}
             required
             min="1"
-            disabled={!currentTerm || isSaving}
+            disabled={isAmountDisabled}
           />
+          {amountError && (
+            <p style={{ color: 'red', marginTop: '5px' }}>{amountError}</p>
+          )}
         </div>
 
         <div className="form-actions">
           <button
             type="submit"
             className="btn-save"
-            disabled={!currentTerm || isSaving}
+            disabled={isAmountDisabled || !!amountError}
           >
             {isSaving ? (
-              <>
-                <span className="spinner"></span> Saving Payment...
-              </>
+              <><span className="spinner"></span> Saving Payment...</>
             ) : (
               'Save Payment'
             )}
