@@ -15,6 +15,8 @@ const balanceHistoryRoutes = require('./routes/balanceHistoryRoutes');
 const dailySubscriberRoutes = require('./routes/dailySubscriberRoutes');
 const reminderRoutes = require('./routes/reminderRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
+const cashierReconciliationRoutes = require('./routes/cashierReconciliationRoutes');
+
 
 
 
@@ -52,6 +54,9 @@ app.use('/api/balance-history', balanceHistoryRoutes);
 app.use('/api/daily-subscribers', dailySubscriberRoutes);
 app.use('/api/reminders', reminderRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/reports', cashierReconciliationRoutes);
+
+
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);

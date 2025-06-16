@@ -15,28 +15,28 @@ const sendReminders = async (req, res) => {
     let successCount = 0;
     let failedList = [];
 
-    for (const id of studentIds) {
-      const student = studentRecords.find((s) => s.studentId === id);
+    for (const { studentId, weeksOwed, amountOwed } of students) {
+      const student = studentRecords.find((s) => s.studentId === studentId);
+
       if (!student) {
-        failedList.push({ studentId: id, reason: 'Student not found in DB' });
+        failedList.push({ studentId, reason: 'Student not found in DB' });
         continue;
       }
 
       const { firstName, lastName, classLevel, guardianContact } = student;
 
       if (!guardianContact) {
-        failedList.push({ studentId: id, reason: 'No guardian contact' });
+        failedList.push({ studentId, reason: 'No guardian contact' });
         continue;
       }
 
-      const messageText = `Dear Parent/Guardian,
-Our records show that ${firstName} ${lastName} (${classLevel}) has an outstanding feeding fee to pay. Kindly make payment as soon as possible. For any concerns, call: 0242382484. Thank you.`;
+      const messageText = `Dear Parent, \nOur records show that ${firstName} ${lastName} owes Feeding fee for ${weeksOwed} week(s) (GHS ${amountOwed}). Kindly make payment else your ward will not be fed. For any concerns, Call: 0242382484. Thank you.`;
 
       const smsPayload = {
         text: messageText,
         type: 0,
         sender: process.env.SMS_SENDER,
-        destinations: [guardianContact],
+        destinations: [guardianContact], 
       };
 
       try {
@@ -55,10 +55,10 @@ Our records show that ${firstName} ${lastName} (${classLevel}) has an outstandin
         if (smsResponse.status === 200) {
           successCount++;
         } else {
-          failedList.push({ studentId: id, reason: `SMS failed with status ${smsResponse.status}` });
+          failedList.push({ studentId, reason: `SMS failed with status ${smsResponse.status}` });
         }
       } catch (error) {
-        failedList.push({ studentId: id, reason: error.message });
+        failedList.push({ studentId, reason: error.message });
       }
     }
 

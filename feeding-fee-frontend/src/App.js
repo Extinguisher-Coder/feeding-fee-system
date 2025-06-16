@@ -38,6 +38,7 @@ import DailyBalancingPage from './Components/AdminComponents/AdminPages/DailyBal
 import AddCashReceivedForm from './Components/AdminComponents/AdminPages/AddCashReceivedForm';
 import DailySubscriberPage from './Components/AdminComponents/AdminPages/DailySubscriberPage';
 import MomoPaymentPage from './Components/AdminComponents/AdminPages/MomoPaymentPage';
+import CashierReconciliationPage from './Components/AdminComponents/AdminPages/CashierReconciliationPage';
 
 
 
@@ -81,6 +82,7 @@ function App() {
                   <Route path="/admin/add-received" element={<AddCashReceivedForm/>} />
                   <Route path="/admin/daily-subscriber" element={<DailySubscriberPage/>} />
                   <Route path="/admin/momo" element={<MomoPaymentPage/>} />
+                  <Route path="/admin/cashierrecon" element={<CashierReconciliationPage/>} />
                   
                   
 

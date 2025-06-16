@@ -149,31 +149,61 @@ const getPaymentsForStudent = async (req, res) => {
 };
 
 // 📌 GET unpaid students by week
+
 const getUnpaidStudentsByWeek = async (req, res) => {
   const { weekNumber } = req.params;
-  const termName = req.query.termName;
+  const { termName } = req.query;
 
-  if (!weekNumber || isNaN(weekNumber) || weekNumber < 1 || weekNumber > 18) {
+  // Validate week number
+  const parsedWeek = parseInt(weekNumber);
+  if (isNaN(parsedWeek) || parsedWeek < 1 || parsedWeek > 18) {
     return res.status(400).json({ error: 'Invalid week number. Must be between 1 and 18.' });
   }
 
   try {
-    const weekKey = `Week${weekNumber}`;
-    const filter = {
-      [weekKey]: { $in: [0, null] }
-    };
-
-    if (termName) {
-      filter.termName = termName;
+    // Build dynamic OR query for Week1 to WeekN
+    const unpaidConditions = [];
+    for (let i = 1; i <= parsedWeek; i++) {
+      unpaidConditions.push({ [`Week${i}`]: { $in: [0, null] } });
     }
 
-    const unpaidStudents = await Payment.find(filter);
-    res.status(200).json(unpaidStudents);
+    const query = { $or: unpaidConditions };
+    if (termName) {
+      query.termName = termName;
+    }
+
+    const payments = await Payment.find(query);
+
+    const result = payments.map(payment => {
+      let weeksOwed = 0;
+
+      for (let i = 1; i <= parsedWeek; i++) {
+        const value = payment[`Week${i}`];
+        if (value === 0 || value === null || value === undefined) {
+          weeksOwed += 1;
+        }
+      }
+
+      return {
+        ...payment.toObject(),
+        weeksOwed,
+        amountOwed: weeksOwed * 50  // Fixed weekly fee
+      };
+    });
+
+    res.status(200).json({
+      message: `Unpaid students up to Week${parsedWeek} retrieved.`,
+      count: result.length,
+      records: result
+    });
   } catch (err) {
     console.error('Error fetching unpaid students:', err);
     res.status(500).json({ error: 'Failed to fetch unpaid students', details: err.message });
   }
 };
+
+module.exports = { getUnpaidStudentsByWeek };
+
 
 // 📌 GET grand total of all payments
 const getGrandTotalCollection = async (req, res) => {

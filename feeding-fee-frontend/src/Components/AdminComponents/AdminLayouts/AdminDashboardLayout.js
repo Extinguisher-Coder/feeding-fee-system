@@ -124,6 +124,13 @@ const AdminDashboardLayout = () => {
             <img src={SummaryIcon} alt="Summary" className="nav-img" /> Weekly Summary
           </NavLink>
           <NavLink
+            to="/admin/cashierrecon"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={closeSidebar}
+          >
+            <img src={SummaryIcon} alt="Summary" className="nav-img" /> Cashier Weekly Summary
+          </NavLink>
+          <NavLink
             to="/admin/absenteeism"
             className={({ isActive }) => (isActive ? "active" : "")}
             onClick={closeSidebar}
