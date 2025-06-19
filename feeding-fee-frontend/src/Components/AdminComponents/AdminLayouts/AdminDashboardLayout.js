@@ -17,6 +17,8 @@ import SummaryIcon from "../../Assets/icons/summary.png";
 import BalanceIcon from "../../Assets/icons/balance.png";
 import FeedingIcon from "../../Assets/icons/feeding.png";
 import MomoIcon from "../../Assets/icons/momo.png";
+import BusIcon from "../../Assets/icons/bus.png";
+
 
 import { FaBars, FaTimes } from "react-icons/fa";
 
@@ -70,6 +72,22 @@ const AdminDashboardLayout = () => {
             <img src={DashboardIcon} alt="Dashboard" className="nav-img" />{" "}
             Dashboard
           </NavLink>
+          <a
+  href="https://westsidetransport.vercel.app"
+  onClick={(e) => {
+    e.preventDefault(); // Stop default navigation
+    logout(); // Clear token and other data
+
+    setTimeout(() => {
+      window.location.href = "https://westsidetransport.vercel.app"; // Redirect after logout
+    }, 100); // Short delay to allow logout to complete
+  }}
+  className="nav-link"
+>
+  <img src={BusIcon} alt="BusIcon" className="nav-imgbus" /> Transport System
+</a>
+
+
           <NavLink
             to="/admin/students"
             className={({ isActive }) => (isActive ? "active" : "")}
@@ -165,7 +183,7 @@ const AdminDashboardLayout = () => {
             className={({ isActive }) => (isActive ? "active" : "")}
             onClick={() => {
               closeSidebar();
-              logout(); // Clear token and redirect
+              logout(); 
             }}
           >
             <img src={LogoutIcon} alt="Logout" className="nav-img" /> Logout

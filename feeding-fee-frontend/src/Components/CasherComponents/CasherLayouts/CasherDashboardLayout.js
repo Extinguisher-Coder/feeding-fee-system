@@ -10,6 +10,7 @@ import ReportsIcon from '../../Assets/icons/reports.png';
 import LogoutIcon from '../../Assets/icons/logout.png';
 import ChangePassword from '../../Assets/icons/change-password.png';
 import FeedingIcon from '../../Assets/icons/feeding.png';
+import BusIcon from '../../Assets/icons/bus.png';
 
 import { FaBars, FaTimes } from "react-icons/fa";
 
@@ -53,6 +54,22 @@ const CasherDashboardLayout = () => {
           >
             <img src={DashboardIcon} alt="Dashboard" className="nav-img" /> Dashboard
           </NavLink>
+
+          <a
+  href="https://westsidetransport.vercel.app"
+  onClick={(e) => {
+    e.preventDefault(); // Stop default navigation
+    logout(); // Clear token and other data
+
+    setTimeout(() => {
+      window.location.href = "https://westsidetransport.vercel.app"; // Redirect after logout
+    }, 100); // Short delay to allow logout to complete
+  }}
+  className="nav-link"
+>
+  <img src={BusIcon} alt="BusIcon" className="nav-imgbus" /> Transport System
+</a>
+
 
 
           <NavLink

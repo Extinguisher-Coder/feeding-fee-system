@@ -90,6 +90,12 @@ body {
   object-fit: contain;
 }
 
+.nav-imgbus{
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
 /* Top Navbar */
 .top-navbar {
   grid-area: top-navbar;
