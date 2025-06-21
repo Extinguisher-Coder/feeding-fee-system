@@ -68,16 +68,15 @@ const DailyBalancingPage = () => {
       Cashier: item.cashier,
       'Amount Accounted': item.lastAmountAccounted,
       'Date Accounted': item.lastAccountedDate
-            ? new Date(item.lastAccountedDate).toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit',
-                hour12: true,
-              })
-            : '',
-
+        ? new Date(item.lastAccountedDate).toLocaleString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+          })
+        : '',
       Accountant: item.accountant
     }));
 
@@ -87,12 +86,14 @@ const DailyBalancingPage = () => {
     XLSX.writeFile(workbook, 'DailyBalanceHistory.xlsx');
   };
 
+  // 🟡 Calculate total accounted
+  const totalAccounted = filtered.reduce((acc, curr) => acc + Number(curr.lastAmountAccounted || 0), 0);
+
   return (
     <div className="cash-page">
       <h1 className="pagetitle">Cash Balancing History</h1>
 
       <div className="action-row">
-       
         <button className="secondary-btn" onClick={handleExport}>
           Export to Excel
         </button>
@@ -128,6 +129,11 @@ const DailyBalancingPage = () => {
         </select>
       </div>
 
+      {/* 🟢 Total Accounted Display */}
+      <div style={{ margin: '20px 0', fontWeight: 'bold', fontSize: '18px' }}>
+        Total Accounted: GHS {totalAccounted.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+      </div>
+
       <table className="cash-table">
         <thead>
           <tr>
@@ -146,18 +152,17 @@ const DailyBalancingPage = () => {
                 <td>{item.cashier}</td>
                 <td>GHS {Number(item.lastAmountAccounted).toLocaleString()}</td>
                 <td>
-                    {item.lastAccountedDate
-                      ? new Date(item.lastAccountedDate).toLocaleString('en-US', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric',
-                          hour: 'numeric',
-                          minute: '2-digit',
-                          hour12: true,
-                        })
-                      : ''}
-                  </td>
-
+                  {item.lastAccountedDate
+                    ? new Date(item.lastAccountedDate).toLocaleString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true,
+                      })
+                    : ''}
+                </td>
                 <td>{item.accountant}</td>
               </tr>
             ))
