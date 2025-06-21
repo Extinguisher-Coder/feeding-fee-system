@@ -18,6 +18,7 @@ import BalanceIcon from "../../Assets/icons/balance.png";
 import FeedingIcon from "../../Assets/icons/feeding.png";
 import MomoIcon from "../../Assets/icons/momo.png";
 import BusIcon from "../../Assets/icons/bus.png";
+import CashierIcon from "../../Assets/icons/cashier.png";
 
 
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -134,6 +135,17 @@ const AdminDashboardLayout = () => {
           >
             <img src={BalanceIcon} alt="BalanceIcon" className="nav-img" /> Cash Balancing
           </NavLink>
+
+            <NavLink
+            to="/admin/cashier-balancing"
+            className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={closeSidebar}
+          >
+            <img src={CashierIcon} alt="CashierIcon" className="nav-img" /> Cashier Weekly Balancing
+          </NavLink>
+
+
+
           <NavLink
             to="/admin/summary"
             className={({ isActive }) => (isActive ? "active" : "")}
@@ -141,13 +153,7 @@ const AdminDashboardLayout = () => {
           >
             <img src={SummaryIcon} alt="Summary" className="nav-img" /> Weekly Summary
           </NavLink>
-          <NavLink
-            to="/admin/cashierrecon"
-            className={({ isActive }) => (isActive ? "active" : "")}
-            onClick={closeSidebar}
-          >
-            <img src={SummaryIcon} alt="Summary" className="nav-img" /> Cashier Weekly Summary
-          </NavLink>
+          
           <NavLink
             to="/admin/absenteeism"
             className={({ isActive }) => (isActive ? "active" : "")}

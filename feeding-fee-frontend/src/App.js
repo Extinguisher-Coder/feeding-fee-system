@@ -27,7 +27,6 @@ import UnpaidReportPage from './Components/AdminComponents/AdminPages/UnpaidRepo
 import ParentChangePasswordForm from './Components/ParentCompents/ParentPages/ParentChangePasswordForm';
 import ParentContactUsPage from './Components/ParentCompents/ParentPages/ParentContactUsPage';
 import AdminSystemLogsPage from './Components/AdminComponents/AdminPages/AdminSystemLogsPage';
-import AbsenteeismForm from './Components/AdminComponents/AdminPages/AbsenteeismForm';
 import AccountantDashboardLayout from './Components/AccountantComponents/AccountantLayouts/AccountantDashboardLayout';
 import CashierDashboardPage from './Components/CasherComponents/CasherPages/CashierDashboardPage';
 import AbsenteeismPage from './Components/AdminComponents/AdminPages/AbsenteeismPage';
@@ -38,7 +37,7 @@ import DailyBalancingPage from './Components/AdminComponents/AdminPages/DailyBal
 import AddCashReceivedForm from './Components/AdminComponents/AdminPages/AddCashReceivedForm';
 import DailySubscriberPage from './Components/AdminComponents/AdminPages/DailySubscriberPage';
 import MomoPaymentPage from './Components/AdminComponents/AdminPages/MomoPaymentPage';
-import CashierReconciliationPage from './Components/AdminComponents/AdminPages/CashierReconciliationPage';
+import CashierWeeklyReportPage from './Components/AdminComponents/AdminPages/CashierWeeklyReportPage';
 
 
 
@@ -82,7 +81,7 @@ function App() {
                   <Route path="/admin/add-received" element={<AddCashReceivedForm/>} />
                   <Route path="/admin/daily-subscriber" element={<DailySubscriberPage/>} />
                   <Route path="/admin/momo" element={<MomoPaymentPage/>} />
-                  <Route path="/admin/cashierrecon" element={<CashierReconciliationPage/>} />
+                  <Route path="/admin/cashier-balancing" element={<CashierWeeklyReportPage/>} />
                   
                   
 
@@ -128,6 +127,7 @@ function App() {
                       <Route path="/accountant/daily-balancing" element={<DailyBalancingPage/>} />
                       <Route path="/accountant/add-received" element={<AddCashReceivedForm/>} />
                       <Route path="/accountant/momo" element={<MomoPaymentPage/>} />
+                        <Route path="/accountant/cashier-balancing" element={<CashierWeeklyReportPage/>} />
                        
          
 
@@ -148,6 +148,7 @@ function App() {
                       <Route path="/cashier/unpaid" element={<UnpaidReportPage />} />
                       <Route path="/cashier/change-password" element={<ChangePasswordForm />} />
                       <Route path="/cashier/daily-subscriber" element={<DailySubscriberPage/>} />
+                      <Route path="/cashier/cashier-balancing" element={<CashierWeeklyReportPage/>} />
           
 
 

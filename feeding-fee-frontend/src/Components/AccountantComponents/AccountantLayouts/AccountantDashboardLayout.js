@@ -13,6 +13,7 @@ import ChangePassword from '../../Assets/icons/change-password.png';
 import BalanceIcon from '../../Assets/icons/balance.png';
 import MomoIcon from '../../Assets/icons/momo.png';
 import BusIcon from '../../Assets/icons/bus.png';
+import CashierIcon from "../../Assets/icons/cashier.png";
 
 import { FaBars, FaTimes } from "react-icons/fa";
 
@@ -102,6 +103,17 @@ const AccountantDashboardLayout = () => {
           >
             <img src={BalanceIcon} alt="BalanceIcon" className="nav-img" /> Cash Balancing
           </NavLink>
+
+                <NavLink
+                    to="/accountant/cashier-balancing"
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={closeSidebar}
+                    >
+                  <img src={CashierIcon} alt="CashierIcon" className="nav-img" /> Cashier Weekly Balancing
+                </NavLink>
+
+
+
           <NavLink
             to="/accountant/summary"
             className={({ isActive }) => (isActive ? 'active' : '')}
